@@ -4,8 +4,7 @@ import Arena from "./components/Arena";
 import LandingPage from "./components/LandingPage";
 import Modal from "./components/Modal";
 import data from "./data.json";
-import Fighter from "./components/Fighter";
-console.log(data);
+// console.log(data);
 
 function App() {
   return (
