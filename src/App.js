@@ -9,6 +9,7 @@ import data from "./data.json";
 function App() {
   return (
     <div className="App">
+      <Fighter />
       <Routes>
         <Route path="/" element={<LandingPage data={data} />} />
         <Route path="/pokemon/:id" element={<Modal />} />
