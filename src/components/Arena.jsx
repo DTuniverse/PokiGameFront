@@ -6,7 +6,10 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Arena() {
  const [isMounted, setIsMounted] = useState(false);
+ const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
 // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
+
+  const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
 
   const [ currentPlayer, setCurrentPlayer ] = useState(data[randomNumber()]) //This will be replaced with the chosen pokemon
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
@@ -52,10 +55,6 @@ export default function Arena() {
     // console.log("random num2", randomNumber())
   }
 //------------------------------ Combat Logic -----------------------------------------//
-
-
-            //------------------- Type Chart ------------------------//
-
 function basicAttack() {
   if (currentPlayer.base.HP < enemyDmg) {
     currentPlayer.base.HP = 0
@@ -101,47 +100,24 @@ function basicAttack() {
       document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
       document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
     }
-    // if (currentPlayer.base.HP < enemySPDmg) {
-    //   currentPlayer.base.HP = 0
-    //   setCurrentPlayer({...currentPlayer})
-    //   document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
-    //   document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
-    // }
-    // else if (currentEnemy.base.HP < playerSPDmg) {
-    //   currentEnemy.base.HP = 0
-    //   setCurrentEnemy({...currentEnemy})
-    //   document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
-    //   document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
-    // } else {
-    //   if (randomNumber() < 30) {
-    //     console.log("this is random number", randomNumber())
-    //     currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
-    //     currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
-    //     setCurrentPlayer({...currentPlayer})
-    //     setCurrentEnemy({...currentEnemy})
-    //     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} to ${currentEnemy.name.english}`
-    //     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} to ${currentPlayer.name.english}`
-    //   } else {
-    //     currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
-    //     currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
-    //     setCurrentPlayer({...currentPlayer})
-    //     setCurrentEnemy({...currentEnemy})
-    //     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
-    //     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
-    //   }
-    // }
   }
-} 
+}
+
+useEffect(() => {
+  if (currentEnemy.base.HP <= 0) {
+    const newEnemy = data[randomNumber()]
+    setCurrentEnemy(newEnemy)
+    setInitialEnemyHp(newEnemy.base.HP)
+  }    
+ },[currentEnemy.base.HP, data, randomNumber])
+
+            //------------------- Type Chart ------------------------//
+
+ 
 
 
 
-  useEffect(() => {
-    if (currentEnemy.base.HP <= 0) {
-      const newEnemy = data[randomNumber()]
-      setCurrentEnemy(newEnemy)
-      setInitialEnemyHp(newEnemy.base.HP)
-    }    
-   },[currentEnemy.base.HP, data, randomNumber])
+  
 
 //------------------------------------------------------------------------------------//
 
@@ -152,7 +128,7 @@ function basicAttack() {
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
             <div className="arena__body_arena_header_card">{currentPlayer?.name.english}</div>
-            <div className="arena__body_arena_header_card">{currentEnemy?.name.english}</div>
+            <div className="arena__body_arena_header_card">{enemyTrainer}, {currentEnemy?.name.english}</div>
           </div>
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
