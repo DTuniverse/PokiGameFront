@@ -44,10 +44,9 @@ export default function Arena() {
   function consoleLog() {
     console.log("current pokemon", currentPlayer)
     console.log("current enemy", currentEnemy)
-    console.log("player damage", playerDmg)
-    console.log("enemy damage", enemyDmg)
-    console.log("current player HP", initialPlayerHp)
-    console.log("current enemy HP", initialEnemyHp)
+    console.log("initial player HP", initialPlayerHp)
+    console.log("initial enemy HP", initialEnemyHp)
+    console.log(randomNumber())
     // console.log("random num1", randomNumber())
     // console.log("random num2", randomNumber())
   }
@@ -59,13 +58,18 @@ export default function Arena() {
 
 
 function basicAttack() {
+  function randomAttNumber() {
+    let randomNum = Math.floor(Math.random() * 100)
+    return randomNum
+  }
   // 30% chance to inflict SP attack damage
   
   console.log("player remaining hp", playerRemainingHP)
   console.log("enemy remaining hp", enemyRemainingHp)
+  console.log("random number in attack function", randomAttNumber())
 
-  console.log(`The player caused ${randomNumber > 30 ? playerDmg : playerSPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentEnemy.name.english}`)
-  console.log(`The Enemy caused ${randomNumber > 30 ? enemyDmg : enemySPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentPlayer.name.english}`)
+  console.log(`The player caused ${randomAttNumber() > 30 ? playerDmg : playerSPDmg} ${randomAttNumber() > 30 ? "damage" : "Special Dmg"} to ${currentEnemy.name.english}`)
+  console.log(`The Enemy caused ${randomAttNumber() > 30 ? enemyDmg : enemySPDmg} ${randomAttNumber() > 30 ? "damage" : "Special Dmg"} to ${currentPlayer.name.english}`)
   
   if(currentPlayer.base.HP < enemyDmg) {
       currentPlayer.base.HP = 0;
@@ -90,14 +94,17 @@ function basicAttack() {
     } 
   }
 
-  // useEffect(() => {
-  //   if (isMounted) {
-  //   setInitialPlayerHp(playerRemainingHP)
-  //   setInitialEnemyHp(enemyRemainingHp)}
-  //   else if (isMounted) {
-  //     setInitialEnemyHp(enemyRemainingHp)
-  //   }
-  //  },[])
+  useEffect(() => {
+    if (playerRemainingHP < 0) {
+      const HP = currentPlayer.base.HP
+      const updatedPlayer = {...currentPlayer, [HP]: 0}
+      setCurrentPlayer(updatedPlayer)
+    } else if (enemyRemainingHp < 0) {
+      const HP = currentEnemy.base.HP
+      const updatedEnemy = {...currentEnemy, [HP]: 0}
+      setCurrentEnemy(updatedEnemy)
+    }    
+   },[currentPlayer.base.HP, currentEnemy.base.HP])
 
 //------------------------------------------------------------------------------------//
 
