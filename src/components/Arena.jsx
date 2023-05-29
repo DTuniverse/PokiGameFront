@@ -27,8 +27,8 @@ export default function Arena() {
   const playerSPDmg = Math.floor((currentPlayer.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy.base["Sp. Defense"])/maxSPDef))
   const enemySPDmg = Math.floor((currentEnemy.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer.base["Sp. Defense"])/maxSPDef))
 
-  const enemyRemainingHp = randomNumber() > 30 ?  (currentEnemy.base.HP - playerDmg) : (currentEnemy.base.HP - playerSPDmg)
-  const playerRemainingHP = randomNumber() > 30 ? (currentPlayer.base.HP - enemyDmg) : (currentPlayer.base.HP - enemySPDmg)
+  const enemyAttack = randomNumber() > 30 ? enemyDmg : enemySPDmg
+  const playerAttack = randomNumber() > 30 ? playerDmg : playerSPDmg
 
   function randomNumber() {
     let randomNum = Math.floor(Math.random() * 100)
@@ -46,7 +46,8 @@ export default function Arena() {
     console.log("current enemy", currentEnemy)
     console.log("initial player HP", initialPlayerHp)
     console.log("initial enemy HP", initialEnemyHp)
-    console.log(randomNumber())
+    // console.log("remaining player hp", playerRemainingHP)
+    // console.log("remaining enemy hp", enemyRemainingHp)
     // console.log("random num1", randomNumber())
     // console.log("random num2", randomNumber())
   }
@@ -55,56 +56,92 @@ export default function Arena() {
 
             //------------------- Type Chart ------------------------//
 
-
-
 function basicAttack() {
-  function randomAttNumber() {
-    let randomNum = Math.floor(Math.random() * 100)
-    return randomNum
-  }
-  // 30% chance to inflict SP attack damage
-  
-  console.log("player remaining hp", playerRemainingHP)
-  console.log("enemy remaining hp", enemyRemainingHp)
-  console.log("random number in attack function", randomAttNumber())
-
-  console.log(`The player caused ${randomAttNumber() > 30 ? playerDmg : playerSPDmg} ${randomAttNumber() > 30 ? "damage" : "Special Dmg"} to ${currentEnemy.name.english}`)
-  console.log(`The Enemy caused ${randomAttNumber() > 30 ? enemyDmg : enemySPDmg} ${randomAttNumber() > 30 ? "damage" : "Special Dmg"} to ${currentPlayer.name.english}`)
-  
-  if(currentPlayer.base.HP < enemyDmg) {
-      currentPlayer.base.HP = 0;
-      currentEnemy.base.HP = enemyRemainingHp
-      setCurrentPlayer({...currentPlayer})
-      setCurrentEnemy({...currentEnemy})
-    } else if (currentEnemy.base.HP < playerDmg) {
-      currentEnemy.base.HP = 0
-      currentPlayer.base.HP = playerRemainingHP
-      setCurrentEnemy({...currentEnemy})
-      setCurrentPlayer({...currentPlayer})
-    }
-    else {
-    currentEnemy.base.HP = enemyRemainingHp
-    currentPlayer.base.HP = playerRemainingHP
-    setCurrentEnemy({...currentEnemy})
+  if (currentPlayer.base.HP < enemyDmg) {
+    currentPlayer.base.HP = 0
     setCurrentPlayer({...currentPlayer})
-
-    document.getElementById("text-box").innerHTML = `The player caused ${randomNumber > 30 ? playerDmg : playerSPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentEnemy.name.english} <br/>`
-    document.getElementById("text-box").innerHTML = `The Enemy caused ${randomNumber > 30 ? enemyDmg : enemySPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentPlayer.name.english} <br/>` 
-    
-    } 
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
   }
+  else if (currentEnemy.base.HP < playerDmg) {
+    currentEnemy.base.HP = 0
+    setCurrentEnemy({...currentEnemy})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+  } 
+  else {
+    if (randomNumber() < 30) {
+      if (currentPlayer.base.HP < enemySPDmg) {
+          currentPlayer.base.HP = 0
+          setCurrentPlayer({...currentPlayer})
+          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+      }
+      else if (currentEnemy.base.HP < playerSPDmg) {
+          currentEnemy.base.HP = 0
+          setCurrentEnemy({...currentEnemy})
+          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+      } 
+      else {
+      console.log("this is random number", randomNumber())
+      currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
+      currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
+      setCurrentPlayer({...currentPlayer})
+      setCurrentEnemy({...currentEnemy})
+      document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} SP damage to ${currentEnemy.name.english}`
+      document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} SP damage to ${currentPlayer.name.english}`
+      }
+    } 
+    else {
+      currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
+      currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
+      setCurrentPlayer({...currentPlayer})
+      setCurrentEnemy({...currentEnemy})
+      document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
+      document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
+    }
+    // if (currentPlayer.base.HP < enemySPDmg) {
+    //   currentPlayer.base.HP = 0
+    //   setCurrentPlayer({...currentPlayer})
+    //   document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+    //   document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+    // }
+    // else if (currentEnemy.base.HP < playerSPDmg) {
+    //   currentEnemy.base.HP = 0
+    //   setCurrentEnemy({...currentEnemy})
+    //   document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+    //   document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+    // } else {
+    //   if (randomNumber() < 30) {
+    //     console.log("this is random number", randomNumber())
+    //     currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
+    //     currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
+    //     setCurrentPlayer({...currentPlayer})
+    //     setCurrentEnemy({...currentEnemy})
+    //     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} to ${currentEnemy.name.english}`
+    //     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} to ${currentPlayer.name.english}`
+    //   } else {
+    //     currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
+    //     currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
+    //     setCurrentPlayer({...currentPlayer})
+    //     setCurrentEnemy({...currentEnemy})
+    //     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
+    //     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
+    //   }
+    // }
+  }
+} 
+
+
 
   useEffect(() => {
-    if (playerRemainingHP < 0) {
-      const HP = currentPlayer.base.HP
-      const updatedPlayer = {...currentPlayer, [HP]: 0}
-      setCurrentPlayer(updatedPlayer)
-    } else if (enemyRemainingHp < 0) {
-      const HP = currentEnemy.base.HP
-      const updatedEnemy = {...currentEnemy, [HP]: 0}
-      setCurrentEnemy(updatedEnemy)
+    if (currentEnemy.base.HP <= 0) {
+      const newEnemy = data[randomNumber()]
+      setCurrentEnemy(newEnemy)
+      setInitialEnemyHp(newEnemy.base.HP)
     }    
-   },[currentPlayer.base.HP, currentEnemy.base.HP])
+   },[currentEnemy.base.HP, data, randomNumber])
 
 //------------------------------------------------------------------------------------//
 
@@ -259,7 +296,7 @@ function basicAttack() {
                     />
                   </div>
                   <div className="arena__body_arena_body_fighter_stat-stats">
-                    <div>{currentEnemy?.base.HP}/{initialPlayerHp}</div>
+                    <div>{currentEnemy?.base.HP}/{initialEnemyHp}</div>
                     <div>{currentEnemy.base.Attack}/{maxAtt}</div>
                     <div>{currentEnemy.base.Defense}/{maxDef}</div>
                     <div>{currentEnemy.base["Sp. Attack"]}/{maxSPAtt}</div>
@@ -270,7 +307,14 @@ function basicAttack() {
             </div>
           </div>
         </div>
-        <div className="arena__body_log" id="text-box">This is just some sample</div>
+        <div className="arena__body_log" id="text-box">
+          <div id="text-box-top">
+            This is just some sample
+          </div>
+          <div id="text-box-bottom">
+            This is more sample
+          </div>
+        </div>
       </div>
     </div>
   );
