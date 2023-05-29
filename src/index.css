@@ -4,3 +4,12 @@
   box-sizing: border-box;
   font-family: "Roboto";
 }
+@import url("https://fonts.googleapis.com/css?family=Shojumaru");
+#global-heading {
+  font-family: Shojumaru, cursive;
+  text-align: center;
+  font-size: 70px;
+  color: #387ef0;
+  /* background-color: rgb(84, 84, 84); */
+  text-shadow: #ff2288 2px 2px 2px;
+}
