@@ -5,47 +5,119 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 
 export default function Arena() {
+ const [isMounted, setIsMounted] = useState(false);
+ const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
+// ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
+
+  const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
+
+  const [ currentPlayer, setCurrentPlayer ] = useState(data[randomNumber()]) //This will be replaced with the chosen pokemon
+  const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
+  
+  const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
+  const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
+
+// --------------------------------------------------------------------------------------//
+ const maxHP = 255
+ const maxAtt = 181
+ const maxDef = 230
+ const maxSPAtt = 173
+ const maxSPDef = 230
+ const maxSp = 160
+
+  const playerDmg = Math.floor((currentPlayer.base.Attack/1.8) *((maxDef-currentEnemy.base.Defense)/maxDef))
+  const enemyDmg = Math.floor((currentEnemy.base.Attack/1.8) *((maxDef-currentPlayer.base.Defense)/maxDef))
+  const playerSPDmg = Math.floor((currentPlayer.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy.base["Sp. Defense"])/maxSPDef))
+  const enemySPDmg = Math.floor((currentEnemy.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer.base["Sp. Defense"])/maxSPDef))
+
+  const enemyAttack = randomNumber() > 30 ? enemyDmg : enemySPDmg
+  const playerAttack = randomNumber() > 30 ? playerDmg : playerSPDmg
 
   function randomNumber() {
     let randomNum = Math.floor(Math.random() * 100)
     return randomNum
-   }
+  }
 
-  // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
-
-  const randomPokemon = data[randomNumber()]
-  const randomEnemy = data[randomNumber()]  
-  
-  const [ currentPlayer, setCurrentPlayer ] = useState(randomPokemon) 
-  const [ currentEnemy, setCurrentEnemy ] = useState(randomEnemy)
-  
-  const [ currentPlayerHp, setCurrentPlayerHp ] = useState(currentPlayer?.base.HP)
-  const [ currentEnemyHp, setCurrentEnemyHp ] = useState(currentEnemy?.base.HP)
-
+  // useEffect(() => {
+  //   // This runs only on the initial render
+  //   setIsMounted(true);
+  // }, []);
+   
 // --------------------------------------------------------------------------------------//
   function consoleLog() {
     console.log("current pokemon", currentPlayer)
     console.log("current enemy", currentEnemy)
-    console.log("random num1", randomNumber())
-    console.log("random num2", randomNumber())
+    console.log("initial player HP", initialPlayerHp)
+    console.log("initial enemy HP", initialEnemyHp)
+    // console.log("remaining player hp", playerRemainingHP)
+    // console.log("remaining enemy hp", enemyRemainingHp)
+    // console.log("random num1", randomNumber())
+    // console.log("random num2", randomNumber())
   }
-  
 //------------------------------ Combat Logic -----------------------------------------//
-
 function basicAttack() {
-  const playerAttack = randomNumber() <30? currentPlayer.base["Sp. Attack"]*((100-currentEnemy.base["Sp. Defense"])/100) : currentPlayer.base.Attack *((100-currentEnemy.base.Defense)/100)
-  const enemyAttack = randomNumber() <30? currentEnemy.base["Sp. Attack"]*((100-currentPlayer.base["Sp. Defense"])/100) : currentEnemy.base.Attack *((100-currentPlayer.base.Defense)/100)
-  const enemyRemainingHp = currentEnemyHp - playerAttack
-  const playerRemainingHP = currentPlayerHp - enemyAttack
-  console.log(`The player caused ${playerAttack} damage to ${currentEnemy.name.english}`)
-  console.log(`The enemy caused ${enemyAttack} damage to ${currentPlayer.name.english}`)
-  
-  if (currentPlayer.base.Speed > currentEnemy.base.Speed) {
-    setCurrentEnemyHp(enemyRemainingHp)
-  } else {
-    setCurrentPlayerHp(playerRemainingHP)
+  if (currentPlayer.base.HP < enemyDmg) {
+    currentPlayer.base.HP = 0
+    setCurrentPlayer({...currentPlayer})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+  }
+  else if (currentEnemy.base.HP < playerDmg) {
+    currentEnemy.base.HP = 0
+    setCurrentEnemy({...currentEnemy})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+  } 
+  else {
+    if (randomNumber() < 30) {
+      if (currentPlayer.base.HP < enemySPDmg) {
+          currentPlayer.base.HP = 0
+          setCurrentPlayer({...currentPlayer})
+          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+      }
+      else if (currentEnemy.base.HP < playerSPDmg) {
+          currentEnemy.base.HP = 0
+          setCurrentEnemy({...currentEnemy})
+          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+      } 
+      else {
+      console.log("this is random number", randomNumber())
+      currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
+      currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
+      setCurrentPlayer({...currentPlayer})
+      setCurrentEnemy({...currentEnemy})
+      document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} SP damage to ${currentEnemy.name.english}`
+      document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} SP damage to ${currentPlayer.name.english}`
+      }
+    } 
+    else {
+      currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
+      currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
+      setCurrentPlayer({...currentPlayer})
+      setCurrentEnemy({...currentEnemy})
+      document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
+      document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
+    }
   }
 }
+
+useEffect(() => {
+  if (currentEnemy.base.HP <= 0) {
+    const newEnemy = data[randomNumber()]
+    setCurrentEnemy(newEnemy)
+    setInitialEnemyHp(newEnemy.base.HP)
+  }    
+ },[currentEnemy.base.HP, data, randomNumber])
+
+            //------------------- Type Chart ------------------------//
+
+ 
+
+
+
+  
 
 //------------------------------------------------------------------------------------//
 
@@ -56,7 +128,7 @@ function basicAttack() {
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
             <div className="arena__body_arena_header_card">{currentPlayer?.name.english}</div>
-            <div className="arena__body_arena_header_card">{currentEnemy?.name.english}</div>
+            <div className="arena__body_arena_header_card">{enemyTrainer}, {currentEnemy?.name.english}</div>
           </div>
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
@@ -65,133 +137,160 @@ function basicAttack() {
             </div>
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">
-              <ProgressBar 
-                completed={currentPlayerHp}
-                maxCompleted={currentPlayer?.base.HP}
-                bgColor="#ee080e"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="HP"
-              /> {/* {currentPlayerHp} */}
-              <ProgressBar 
-                completed={currentPlayer.base.Attack}
-                maxCompleted={currentPlayer.base.Attack}
-                bgColor="#E2A43A"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="ATK"
-              />
-              <ProgressBar 
-                completed={currentPlayer.base.Defense}
-                maxCompleted={currentPlayer.base.Defense}
-                bgColor="#A23AE2"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="DEF"
-              />
-              <ProgressBar 
-                completed={currentPlayer.base.Defense}
-                maxCompleted={currentPlayer.base.Defense}
-                bgColor="#7ABCE0"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="SP.ATK"
-              />
-              <ProgressBar 
-                completed={currentPlayer.base.Defense}
-                maxCompleted={currentPlayer.base.Defense}
-                bgColor="#AA87D3"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="SP.DEF"
-              />
-              <ProgressBar 
-                completed={currentPlayer.base.Defense}
-                maxCompleted={currentPlayer.base.Defense}
-                bgColor="#88E07A"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="SPD"
-              />
-              </div>
-              <div className="arena__body_arena_body_fighter_stat">
-              <ProgressBar 
-                completed={currentEnemyHp}
-                maxCompleted={currentEnemy?.base.HP}
-                bgColor="#ee080e"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="HP"
-              />
-              <ProgressBar 
-                completed={currentEnemy.base.Attack}
-                maxCompleted={currentEnemy.base.Attack}
-                bgColor="#E2A43A"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="ATK"
-              />
-              <ProgressBar 
-                completed={currentEnemy.base.Defense}
-                maxCompleted={currentEnemy.base.Defense}
-                bgColor="#A23AE2"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="DEF"
-              />
-              <ProgressBar 
-                completed={currentEnemy.base.Defense}
-                maxCompleted={currentEnemy.base.Defense}
-                bgColor="#7ABCE0"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="SP.ATK"
-              />
-              <ProgressBar 
-                completed={currentEnemy.base.Defense}
-                maxCompleted={currentEnemy.base.Defense}
-                bgColor="#AA87D3"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="SP.DEF"
-              />
-              <ProgressBar 
-                completed={currentEnemy.base.Defense}
-                maxCompleted={currentEnemy.base.Defense}
-                bgColor="#88E07A"
-                height="15px"
-                width="70%"
-                labelAlignment="center"
-                labelColor="#030303"
-                customLabel="SPD"
-              />
+                <div className="arena__body_arena_body_fighter_stat-bars">
+                  <ProgressBar
+                    completed={currentPlayer?.base.HP}
+                    maxCompleted={initialPlayerHp}
+                    bgColor="#ee080e"
+                    height="15px"
+                    width="70%"
+                    labelAlignment="center"
+                    labelColor="#030303"
+                    customLabel="HP"
+                  />
+                  <ProgressBar
+                    completed={currentPlayer.base.Attack}
+                    maxCompleted={maxAtt}
+                    bgColor="#E2A43A"
+                    height="15px"
+                    width="70%"
+                    labelAlignment="center"
+                    labelColor="#030303"
+                    customLabel="ATK"
+                  />
+                  <ProgressBar
+                    completed={currentPlayer.base.Defense}
+                    maxCompleted={maxDef}
+                    bgColor="#A23AE2"
+                    height="15px"
+                    width="70%"
+                    labelAlignment="center"
+                    labelColor="#030303"
+                    customLabel="DEF"
+                  />
+                  <ProgressBar
+                    completed={currentPlayer.base["Sp. Attack"]}
+                    maxCompleted={maxSPAtt}
+                    bgColor="#7ABCE0"
+                    height="15px"
+                    width="70%"
+                    labelAlignment="center"
+                    labelColor="#030303"
+                    customLabel="SP.ATK"
+                  />
+                  <ProgressBar
+                    completed={currentPlayer.base["Sp. Defense"]}
+                    maxCompleted={maxSPDef}
+                    bgColor="#AA87D3"
+                    height="15px"
+                    width="70%"
+                    labelAlignment="center"
+                    labelColor="#030303"
+                    customLabel="SP.DEF"
+                  />
+                  <ProgressBar
+                    completed={currentPlayer.base.Speed}
+                    maxCompleted={maxSp}
+                    bgColor="#88E07A"
+                    height="15px"
+                    width="70%"
+                    labelAlignment="center"
+                    labelColor="#030303"
+                    customLabel="SPD"
+                  />
+                  </div>
+                  <div className="arena__body_arena_body_fighter_stat-stats">
+                    <div>{currentPlayer?.base.HP}/{initialPlayerHp}</div>
+                    <div>{currentPlayer.base.Attack}/{maxAtt}</div>
+                    <div>{currentPlayer.base.Defense}/{maxDef}</div>
+                    <div>{currentPlayer.base["Sp. Attack"]}/{maxSPAtt}</div>
+                    <div>{currentPlayer.base["Sp. Defense"]}/{maxSPDef}</div>
+                    <div>{currentPlayer.base.Speed}/{maxSp}</div>
+                  </div>
+                </div>
+                <div className="arena__body_arena_body_fighter_stat">
+                  <div className="arena__body_arena_body_fighter_stat-bars">
+                    <ProgressBar
+                      completed={currentEnemy.base.HP}
+                      maxCompleted={initialEnemyHp}
+                      bgColor="#ee080e"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="HP"
+                    />
+                    <ProgressBar
+                      completed={currentEnemy.base.Attack}
+                      maxCompleted={maxAtt}
+                      bgColor="#E2A43A"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="ATK"
+                    />
+                    <ProgressBar
+                      completed={currentEnemy.base.Defense}
+                      maxCompleted={maxDef}
+                      bgColor="#A23AE2"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="DEF"
+                    />
+                    <ProgressBar
+                      completed={currentEnemy.base.Defense}
+                      maxCompleted={maxSPAtt}
+                      bgColor="#7ABCE0"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="SP.ATK"
+                    />
+                    <ProgressBar
+                      completed={currentEnemy.base.Defense}
+                      maxCompleted={maxSPDef}
+                      bgColor="#AA87D3"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="SP.DEF"
+                    />
+                    <ProgressBar
+                      completed={currentEnemy.base.Defense}
+                      maxCompleted={maxSp}
+                      bgColor="#88E07A"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="SPD"
+                    />
+                  </div>
+                  <div className="arena__body_arena_body_fighter_stat-stats">
+                    <div>{currentEnemy?.base.HP}/{initialEnemyHp}</div>
+                    <div>{currentEnemy.base.Attack}/{maxAtt}</div>
+                    <div>{currentEnemy.base.Defense}/{maxDef}</div>
+                    <div>{currentEnemy.base["Sp. Attack"]}/{maxSPAtt}</div>
+                    <div>{currentEnemy.base["Sp. Defense"]}/{maxSPDef}</div>
+                    <div>{currentEnemy.base.Speed}/{maxSp}</div>
+                  </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="arena__body_log"><button>This is just some sample</button></div>
+        <div className="arena__body_log" id="text-box">
+          <div id="text-box-top">
+            This is just some sample
+          </div>
+          <div id="text-box-bottom">
+            This is more sample
+          </div>
+        </div>
       </div>
     </div>
   );

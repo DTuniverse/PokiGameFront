@@ -67,18 +67,34 @@
     height: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .arena__body_arena_body_fighter_stat {
     border: 1px dashed black;
     height: 50%;
-    width: 30%;
+    width: 35%;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 5px;
     padding: 5px;
+}
+
+.arena__body_arena_body_fighter_stat-bars {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    justify-content: space-around;
+    border-right: 2px solid black;
+}
+
+.arena__body_arena_body_fighter_stat-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 20%;
 }
 
 .arena__body_log {
@@ -88,4 +104,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#text-box {
+    border: 1px dashed black;
+    width: 55%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
 }
