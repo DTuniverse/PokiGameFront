@@ -5,47 +5,99 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 
 export default function Arena() {
+ const [isMounted, setIsMounted] = useState(false);
+// ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
+
+  const [ currentPlayer, setCurrentPlayer ] = useState(data[randomNumber()]) //This will be replaced with the chosen pokemon
+  const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
+  
+  const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
+  const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
+
+// --------------------------------------------------------------------------------------//
+ const maxHP = 255
+ const maxAtt = 181
+ const maxDef = 230
+ const maxSPAtt = 173
+ const maxSPDef = 230
+ const maxSp = 160
+
+  const playerDmg = Math.floor((currentPlayer.base.Attack/1.8) *((maxDef-currentEnemy.base.Defense)/maxDef))
+  const enemyDmg = Math.floor((currentEnemy.base.Attack/1.8) *((maxDef-currentPlayer.base.Defense)/maxDef))
+  const playerSPDmg = Math.floor((currentPlayer.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy.base["Sp. Defense"])/maxSPDef))
+  const enemySPDmg = Math.floor((currentEnemy.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer.base["Sp. Defense"])/maxSPDef))
+
+  const enemyRemainingHp = randomNumber() > 30 ?  (currentEnemy.base.HP - playerDmg) : (currentEnemy.base.HP - playerSPDmg)
+  const playerRemainingHP = randomNumber() > 30 ? (currentPlayer.base.HP - enemyDmg) : (currentPlayer.base.HP - enemySPDmg)
 
   function randomNumber() {
     let randomNum = Math.floor(Math.random() * 100)
     return randomNum
-   }
+  }
 
-  // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
-
-  const randomPokemon = data[randomNumber()]
-  const randomEnemy = data[randomNumber()]  
-  
-  const [ currentPlayer, setCurrentPlayer ] = useState(randomPokemon) 
-  const [ currentEnemy, setCurrentEnemy ] = useState(randomEnemy)
-  
-  const [ currentPlayerHp, setCurrentPlayerHp ] = useState(currentPlayer?.base.HP)
-  const [ currentEnemyHp, setCurrentEnemyHp ] = useState(currentEnemy?.base.HP)
-
+  // useEffect(() => {
+  //   // This runs only on the initial render
+  //   setIsMounted(true);
+  // }, []);
+   
 // --------------------------------------------------------------------------------------//
   function consoleLog() {
     console.log("current pokemon", currentPlayer)
     console.log("current enemy", currentEnemy)
-    console.log("random num1", randomNumber())
-    console.log("random num2", randomNumber())
+    console.log("player damage", playerDmg)
+    console.log("enemy damage", enemyDmg)
+    console.log("current player HP", initialPlayerHp)
+    console.log("current enemy HP", initialEnemyHp)
+    // console.log("random num1", randomNumber())
+    // console.log("random num2", randomNumber())
   }
-  
 //------------------------------ Combat Logic -----------------------------------------//
 
+
+            //------------------- Type Chart ------------------------//
+
+
+
 function basicAttack() {
-  const playerAttack = randomNumber() <30? currentPlayer.base["Sp. Attack"]*((100-currentEnemy.base["Sp. Defense"])/100) : currentPlayer.base.Attack *((100-currentEnemy.base.Defense)/100)
-  const enemyAttack = randomNumber() <30? currentEnemy.base["Sp. Attack"]*((100-currentPlayer.base["Sp. Defense"])/100) : currentEnemy.base.Attack *((100-currentPlayer.base.Defense)/100)
-  const enemyRemainingHp = currentEnemyHp - playerAttack
-  const playerRemainingHP = currentPlayerHp - enemyAttack
-  console.log(`The player caused ${playerAttack} damage to ${currentEnemy.name.english}`)
-  console.log(`The enemy caused ${enemyAttack} damage to ${currentPlayer.name.english}`)
+  // 30% chance to inflict SP attack damage
   
-  if (currentPlayer.base.Speed > currentEnemy.base.Speed) {
-    setCurrentEnemyHp(enemyRemainingHp)
-  } else {
-    setCurrentPlayerHp(playerRemainingHP)
+  console.log("player remaining hp", playerRemainingHP)
+  console.log("enemy remaining hp", enemyRemainingHp)
+
+  console.log(`The player caused ${randomNumber > 30 ? playerDmg : playerSPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentEnemy.name.english}`)
+  console.log(`The Enemy caused ${randomNumber > 30 ? enemyDmg : enemySPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentPlayer.name.english}`)
+  
+  if(currentPlayer.base.HP < enemyDmg) {
+      currentPlayer.base.HP = 0;
+      currentEnemy.base.HP = enemyRemainingHp
+      setCurrentPlayer({...currentPlayer})
+      setCurrentEnemy({...currentEnemy})
+    } else if (currentEnemy.base.HP < playerDmg) {
+      currentEnemy.base.HP = 0
+      currentPlayer.base.HP = playerRemainingHP
+      setCurrentEnemy({...currentEnemy})
+      setCurrentPlayer({...currentPlayer})
+    }
+    else {
+    currentEnemy.base.HP = enemyRemainingHp
+    currentPlayer.base.HP = playerRemainingHP
+    setCurrentEnemy({...currentEnemy})
+    setCurrentPlayer({...currentPlayer})
+
+    document.getElementById("text-box").innerHTML = `The player caused ${randomNumber > 30 ? playerDmg : playerSPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentEnemy.name.english} <br/>`
+    document.getElementById("text-box").innerHTML = `The Enemy caused ${randomNumber > 30 ? enemyDmg : enemySPDmg} ${randomNumber > 30 ? "damage" : "Special Dmg"} to ${currentPlayer.name.english} <br/>` 
+    
+    } 
   }
-}
+
+  // useEffect(() => {
+  //   if (isMounted) {
+  //   setInitialPlayerHp(playerRemainingHP)
+  //   setInitialEnemyHp(enemyRemainingHp)}
+  //   else if (isMounted) {
+  //     setInitialEnemyHp(enemyRemainingHp)
+  //   }
+  //  },[])
 
 //------------------------------------------------------------------------------------//
 
@@ -66,8 +118,8 @@ function basicAttack() {
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">
               <ProgressBar 
-                completed={currentPlayerHp}
-                maxCompleted={currentPlayer?.base.HP}
+                completed={currentPlayer?.base.HP}
+                maxCompleted={initialPlayerHp}
                 bgColor="#ee080e"
                 height="15px"
                 width="70%"
@@ -128,8 +180,8 @@ function basicAttack() {
               </div>
               <div className="arena__body_arena_body_fighter_stat">
               <ProgressBar 
-                completed={currentEnemyHp}
-                maxCompleted={currentEnemy?.base.HP}
+                completed={currentEnemy.base.HP}
+                maxCompleted={initialEnemyHp}
                 bgColor="#ee080e"
                 height="15px"
                 width="70%"
@@ -191,7 +243,7 @@ function basicAttack() {
             </div>
           </div>
         </div>
-        <div className="arena__body_log"><button>This is just some sample</button></div>
+        <div className="arena__body_log" id="text-box">This is just some sample</div>
       </div>
     </div>
   );

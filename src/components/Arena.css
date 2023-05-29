@@ -89,3 +89,12 @@
     align-items: center;
     justify-content: center;
 }
+
+#text-box {
+    border: 1px dashed black;
+    width: 55%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
