@@ -1,0 +1,115 @@
+.parent-pokiCard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
+}
+.flex-container-pokiCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pokiCard {
+  /* width: 190px;
+  height: 254px; */
+  width: 100px;
+  height: 100px;
+  background-image: url("/Users/daniiltokalov/Desktop/wk11/PokiGame2/PokiGameFront/src/resources/scratches-old-metal-wallpaper-preview.jpg");
+  /* background: #171717; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 3px 1px #00000088;
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+.pokiCard .pokiCardContent {
+  border-radius: 5px;
+  background-image: url("/Users/daniiltokalov/Desktop/wk11/PokiGame2/PokiGameFront/src/resources/scratches-old-metal-wallpaper-preview.jpg");
+  /* filter: brightness(50%); */
+  /* background: #171717; */
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+  padding: 20px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pokiCardContent::before {
+  opacity: 0;
+  transition: opacity 300ms;
+  content: " ";
+  display: block;
+  background: white;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  filter: blur(50px);
+}
+.pokiCard:hover {
+  transform: scale(1.25);
+}
+
+.pokiCard:hover .pokiCardContent::before {
+  opacity: 1;
+}
+
+.pokiCard::before {
+  opacity: 0;
+  content: " ";
+  position: absolute;
+  display: block;
+  width: 60px;
+  height: 180px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ff2288,
+    #387ef0,
+    transparent
+  );
+  transition: opacity 300ms;
+  animation: rotation_9018 3000ms infinite linear;
+  animation-play-state: paused;
+}
+
+.pokiCard:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.pokiCard::after {
+  position: absolute;
+  content: " ";
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: #17171733;
+  backdrop-filter: blur(50px);
+}
+
+@keyframes rotation_9018 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#pokiNameLanding {
+  font-family: Shojumaru, cursive;
+  padding-top: 20px;
+  /* padding-left: 20px; */
+  /* text-align: center; */
+  font-size: 16px;
+  color: #387ef0;
+  /* background-color: rgb(84, 84, 84); */
+  text-shadow: #ff2288 0.5px 0.5px 0.5px;
+}
