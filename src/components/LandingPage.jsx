@@ -1,22 +1,19 @@
 import PokiCardOnLanding from "./PokiCardOnLanding";
 import "./pokiCardOnLanding.css";
 
-export default function LandingPage({ serverData, dataImg }) {
-  // console.log("this is data from landing page", data)
-  console.log("this is dataImg from landin page", serverData?.allPokemon)
+export default function LandingPage({ data, dataImg }) {
   return (
     <div>
       <h1 id="global-heading">PokiFIGHT</h1>
       {/* <img src={dataImg[58]?.sprites?.front_default}/> */}
       <div className="parent-pokiCard">
-        {/* {serverData?.allPokemon &&
-          serverData.allPokemon.map((poki, index) => {
-            
-            // const img = dataImg.find(element => element.name===poki.name.english.toLowerCase())
-             */}
-           {/* <PokiCardOnLanding poki={poki} index={index} dataImg={dataImg} key={poki.name.english} />})} */}
-           <PokiCardOnLanding/>
+        {data &&
+          data.map((poki, index) => {
+            const img = dataImg.find(i=>i.name===poki.name.english.toLowerCase())
+            return <PokiCardOnLanding poki={poki} index={index} img={img} />
+          }
           
+         )}
       </div>
     </div>
   );
