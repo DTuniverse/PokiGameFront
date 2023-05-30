@@ -28,7 +28,7 @@
 
 .pokiCard .pokiCardContent {
   border-radius: 5px;
-  background-image: url("/Users/daniiltokalov/Desktop/wk11/PokiGame2/PokiGameFront/src/resources/scratches-old-metal-wallpaper-preview.jpg");
+  background-image: url("../resources/scratches-old-metal-wallpaper-preview.jpg");
   /* filter: brightness(50%); */
   /* background: #171717; */
   width: 100px;
