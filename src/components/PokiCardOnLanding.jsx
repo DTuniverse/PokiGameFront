@@ -1,13 +1,13 @@
 import "./pokiCardOnLanding.css";
 
-export default function PokiCardOnLanding({ poki, index }) {
+export default function PokiCardOnLanding({ poki, index, dataImg }) {
   return (
     <div className="flex-container-pokiCard">
-      <div id="pokiCard" className="pokiCard">
+      {/* <div id="pokiCard" className="pokiCard">
         <div className="pokiCardContent">
           <img
             className="imgPokiCardOnLanding"
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            src={dataImg[1]?.sprites?.front_default}
             width="140px"
             height="auto"
           />
@@ -15,7 +15,8 @@ export default function PokiCardOnLanding({ poki, index }) {
       </div>
       <div id="pokiNameLanding" key={poki.id}>
         {poki.name.english}
-      </div>
+      </div> */}
+      1
     </div>
   );
 }
