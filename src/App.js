@@ -8,22 +8,40 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [data, setData] = useState([]);
+  const [dataImg, setDataImg] = useState([]);
+  
   const fetchData = async () => {
-    const res = await fetch("http://localhost:5001/pokemon");
+    try {  
+    const res = await fetch("https://pokigameback.onrender.com/pokemon");
     const data = await res.json();
-    setData(data);
+    setData(data.allPokemon);
     console.log("test data", data);
+    } catch (error) {
+      console.log("data not working")
+    }
+  };
+
+  const fetchDataImg = async () => {
+    try {
+      const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0");
+      const dataImg = await res.json();
+      setDataImg(dataImg.results);
+      console.log("test dataImg", dataImg.results);
+    } catch(e){
+      console.log("dataImg not working")
+    } 
   };
 
   useEffect(() => {
     fetchData();
+    fetchDataImg();
   }, []);
 
   return (
     <div className="App">
       <Container sx={{ width: 900 }}>
         <Routes>
-          <Route path="/" element={<LandingPage data={data} />} />
+          <Route path="/" element={<LandingPage data={data} dataImg={dataImg} />} />
           <Route path="/pokemon/:id" element={<Modal />} />
           <Route path="/pokemon/arena" element={<Arena />} />
         </Routes>
