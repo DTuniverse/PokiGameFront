@@ -24,7 +24,7 @@ export default function PokiCardOnLanding({ poki, index, img, setImgOfSelected }
 
   return (
     <div className="flex-container-pokiCard">
-      {/* <div id="pokiCard" className="pokiCard">
+      <div id="pokiCard" className="pokiCard">
         <div className="pokiCardContent">
           <img
 
@@ -40,8 +40,8 @@ export default function PokiCardOnLanding({ poki, index, img, setImgOfSelected }
       </div>
       <div id="pokiNameLanding" key={poki.id}>
         {poki.name.english}
-      </div> */}
-      1
+      </div>
+      
     </div>
   );
 }

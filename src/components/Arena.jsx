@@ -11,8 +11,10 @@ export default function Arena({selectedPoke}) {
 
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
 
-  const [ currentPlayer, setCurrentPlayer ] = useState(data[randomNumber()]) //This will be replaced with the chosen pokemon
+  const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke.data) //This will be replaced with the chosen pokemon
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
+  console.log("This is selectedPokemon", selectedPoke)
+  console.log("This is current player",currentPlayer)
   
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
