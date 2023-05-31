@@ -8,9 +8,16 @@ import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 
 
-export default function BasicCard({data, dataImg, indexOfSelected, modalImg}) {
+export default function BasicCard({data, dataImg, indexOfSelected, modalImg, setSelectedPoke, handleClose}) {
   const pokemon = data[indexOfSelected]
-  
+  const handleClick=()=>{
+    const obj = {
+      data:data[indexOfSelected],
+      dataImg: modalImg
+    }
+    setSelectedPoke(obj)
+    handleClose();
+  }
   
   return (
     <Card sx={{ minWidth: 300, maxWidth:400, backgroundColor:"black", color:"white"}}>
@@ -39,8 +46,8 @@ export default function BasicCard({data, dataImg, indexOfSelected, modalImg}) {
         
       </CardContent>
       <CardActions sx={{flexDirection:"column"}}>
-        <Button size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}>I choose you {data[indexOfSelected]?.name.english}</Button>
-        <Button size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "red",color: "white"}}}>Not this Time!</Button>
+        <Button onClick={handleClick} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}>I choose you {data[indexOfSelected]?.name.english}</Button>
+        <Button onClick={handleClose} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "red",color: "white"}}}>Not this Time!</Button>
       </CardActions>
     </Card>
   );
