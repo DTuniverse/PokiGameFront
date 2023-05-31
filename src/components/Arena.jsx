@@ -126,7 +126,7 @@ useEffect(() => {
 
   return (
     <div className="arena__wrapper">
-      <div className="arena__title">PokeFight<button onClick={consoleLog}>Console log</button></div>
+      <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
@@ -136,7 +136,7 @@ useEffect(() => {
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
               <div className="arena__body_arena_body_fighter"><img src={currentPlayerImg} alt="player_pokemon"/></div>
-              <div className="arena__body_arena_body_fighter">Fighter 1<button onClick={basicAttack}>Attack</button></div>
+              <div className="arena__body_arena_body_fighter">Fighter 1</div>
             </div>
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">
