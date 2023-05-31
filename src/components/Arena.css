@@ -62,7 +62,7 @@ background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%)
 
 .arena__body_arena_body_fighter {
     border: 1px dashed black;
-    height: 50%;
+    height: auto;
     width: auto;
 }
 

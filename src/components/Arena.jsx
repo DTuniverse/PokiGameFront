@@ -4,18 +4,34 @@ import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
 
 
-export default function Arena({selectedPoke}) {
- const [isMounted, setIsMounted] = useState(false);
- const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
+export default function Arena({selectedPoke, dataImg}) {
 // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
-
+  const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
-
   const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke.data) //This will be replaced with the chosen pokemon
   let currentPlayerImg = selectedPoke.dataImg
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
-  console.log("This is selectedPokemon", selectedPoke)
-  console.log("This is current player",currentPlayerImg)
+
+  const [ enemyImg, setEnemyImg ] = useState()
+  const enemyImgData = dataImg.find(i=>i.name===currentEnemy.name.english.toLowerCase())
+  const fetchEnemyImg = async () => {
+    try {
+      const res = await fetch(enemyImgData?.url)
+    const data = await res.json()
+    setEnemyImg(data.sprites.other.dream_world.front_default)
+    // console.log(data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEnemyImg();
+  }, []);
+  
+  console.log("This is current Enemy Image", enemyImgData)
+  console.log("This is current enemy",currentEnemy)
   
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
@@ -136,7 +152,7 @@ useEffect(() => {
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
               <div className="arena__body_arena_body_fighter"><img src={currentPlayerImg} alt="player_pokemon"/></div>
-              <div className="arena__body_arena_body_fighter">Fighter 1</div>
+              <div className="arena__body_arena_body_fighter"><img src={enemyImg} alt="enemy_pokemon"/></div>
             </div>
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">

@@ -35,9 +35,9 @@ function App() {
       console.log("dataImg not working")
     } 
   };
-  console.log("App.js IMG DATA:", dataImg);
-  console.log("This is single pokemon", data[0])
-  console.log("App JS server data", serverData)
+  // console.log("App.js IMG DATA:", dataImg);
+  // console.log("This is single pokemon", data[0])
+  // console.log("App JS server data", serverData)
   
   useEffect(() => {
     fetchData();
@@ -55,7 +55,7 @@ function App() {
           {console.log("Selected Poke", selectedPoke)}
           <Route path="/" element={<LandingPage data={data} dataImg={dataImg} setSelectedPoke={setSelectedPoke} />} />
           <Route path="/pokemon/:id" element={<Modal />} />
-          <Route path="/pokemon/arena" element={<Arena selectedPoke={selectedPoke} />} />
+          <Route path="/pokemon/arena" element={<Arena selectedPoke={selectedPoke} dataImg={dataImg} />} />
         </Routes>
       </Container>
     </div>
