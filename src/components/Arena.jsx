@@ -12,9 +12,10 @@ export default function Arena({selectedPoke}) {
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
 
   const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke.data) //This will be replaced with the chosen pokemon
+  let currentPlayerImg = selectedPoke.dataImg
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
   console.log("This is selectedPokemon", selectedPoke)
-  console.log("This is current player",currentPlayer)
+  console.log("This is current player",currentPlayerImg)
   
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
@@ -125,7 +126,7 @@ useEffect(() => {
 
   return (
     <div className="arena__wrapper">
-      <div className="arena__title">PokeFight</div>
+      <div className="arena__title">PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
@@ -134,7 +135,7 @@ useEffect(() => {
           </div>
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
-              <div className="arena__body_arena_body_fighter">Fighter 1<button onClick={consoleLog}>Console log</button></div>
+              <div className="arena__body_arena_body_fighter"><img src={currentPlayerImg} alt="player_pokemon"/></div>
               <div className="arena__body_arena_body_fighter">Fighter 1<button onClick={basicAttack}>Attack</button></div>
             </div>
             <div className="arena__body_arena_body_stats">
