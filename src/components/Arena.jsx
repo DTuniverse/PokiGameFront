@@ -4,7 +4,7 @@ import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
 
 
-export default function Arena() {
+export default function Arena({selectedPoke}) {
  const [isMounted, setIsMounted] = useState(false);
  const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
 // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//

@@ -5,7 +5,7 @@ import * as React from 'react';
   import DialogTitle from '@mui/material/DialogTitle';
   import Dialog from '@mui/material/Dialog';
   import Typography from '@mui/material/Typography';
-export default function Modal({data, dataImg, indexOfSelected, imgOfSelected}) {
+export default function Modal({data, dataImg, indexOfSelected, imgOfSelected, setSelectedPoke}) {
     const [open, setOpen] = React.useState(false);
     const [modalImg, setModalImg] = React.useState("")
     const fetchActualImg = async () => {
@@ -50,7 +50,7 @@ export default function Modal({data, dataImg, indexOfSelected, imgOfSelected}) {
         <SimpleDialog
           open={open}
           onClose={handleClose}
-          data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} modalImg={modalImg}
+          data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} setSelectedPoke={setSelectedPoke} modalImg={modalImg}
         />
       </div>
     );
@@ -58,7 +58,7 @@ export default function Modal({data, dataImg, indexOfSelected, imgOfSelected}) {
 }
   
 function SimpleDialog(props) {
-  const { data, dataImg, indexOfSelected, modalImg, onClose, selectedValue, open } = props;
+  const { data, dataImg, indexOfSelected, modalImg, onClose, selectedValue, open, setSelectedPoke } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -71,7 +71,7 @@ function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open} >
       <DialogTitle sx={{textAlign:'center', backgroundColor:"black", color:"white"}}>{data[indexOfSelected].name.english}</DialogTitle>
-      <BasicCard data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} modalImg={modalImg} />
+      <BasicCard data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} modalImg={modalImg} setSelectedPoke={setSelectedPoke} handleClose={handleClose} />
     </Dialog>
   );
 }

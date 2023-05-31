@@ -3,7 +3,7 @@ import { useState } from "react"
 import "./pokiCardOnLanding.css";
 import Modal from "./Modal";
 
-export default function LandingPage({ data, dataImg }) {
+export default function LandingPage({ data, dataImg, setSelectedPoke }) {
   const [indexOfSelected, setIndexOfSelected] = useState(null)
   const [imgOfSelected, setImgOfSelected] = useState("")
 
@@ -45,7 +45,7 @@ export default function LandingPage({ data, dataImg }) {
 
       </div>
       <div className="parent-modal">
-          {indexOfSelected !==null? <Modal data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} imgOfSelected={imgOfSelected}  /> : console.log("MODAL NOT SHOWING BECAUSE NO POKEMON HAS BEEN SELECTED")}
+          {indexOfSelected !==null? <Modal data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} imgOfSelected={imgOfSelected} setSelectedPoke={setSelectedPoke} /> : console.log("MODAL NOT SHOWING BECAUSE NO POKEMON HAS BEEN SELECTED")}
       </div>
     </div>
   );
