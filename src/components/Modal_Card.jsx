@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
-
+import {Link} from "react-router-dom"
 
 export default function BasicCard({data, dataImg, indexOfSelected, modalImg, setSelectedPoke, handleClose}) {
   const pokemon = data[indexOfSelected]
@@ -46,7 +46,7 @@ export default function BasicCard({data, dataImg, indexOfSelected, modalImg, set
         
       </CardContent>
       <CardActions sx={{flexDirection:"column"}}>
-        <Button onClick={handleClick} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}>I choose you {data[indexOfSelected]?.name.english}</Button>
+        <Link to="/pokemon/arena"><Button onClick={handleClick} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}>I choose you {data[indexOfSelected]?.name.english}</Button></Link>
         <Button onClick={handleClose} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "red",color: "white"}}}>Not this Time!</Button>
       </CardActions>
     </Card>
