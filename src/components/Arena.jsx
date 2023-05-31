@@ -8,12 +8,12 @@ export default function Arena({selectedPoke, dataImg}) {
 // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
   const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
-  const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke.data) //This will be replaced with the chosen pokemon
-  let currentPlayerImg = selectedPoke.dataImg
+  const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke?.data) 
+  let currentPlayerImg = selectedPoke?.dataImg
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
 
   const [ enemyImg, setEnemyImg ] = useState()
-  const enemyImgData = dataImg.find(i=>i.name===currentEnemy.name.english.toLowerCase())
+  const enemyImgData = dataImg?.find(i=>i.name===currentEnemy?.name.english.toLowerCase())
   const fetchEnemyImg = async () => {
     try {
       const res = await fetch(enemyImgData?.url)
@@ -28,7 +28,7 @@ export default function Arena({selectedPoke, dataImg}) {
 
   useEffect(() => {
     fetchEnemyImg();
-  }, []);
+  }, [currentEnemy]);
   
   console.log("This is current Enemy Image", enemyImgData)
   console.log("This is current enemy",currentEnemy)
@@ -44,10 +44,10 @@ export default function Arena({selectedPoke, dataImg}) {
  const maxSPDef = 230
  const maxSp = 160
 
-  const playerDmg = Math.floor((currentPlayer.base.Attack/1.8) *((maxDef-currentEnemy.base.Defense)/maxDef))
-  const enemyDmg = Math.floor((currentEnemy.base.Attack/1.8) *((maxDef-currentPlayer.base.Defense)/maxDef))
-  const playerSPDmg = Math.floor((currentPlayer.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy.base["Sp. Defense"])/maxSPDef))
-  const enemySPDmg = Math.floor((currentEnemy.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer.base["Sp. Defense"])/maxSPDef))
+  const playerDmg = Math.floor((currentPlayer?.base.Attack/1.8) *((maxDef-currentEnemy?.base.Defense)/maxDef))
+  const enemyDmg = Math.floor((currentEnemy?.base.Attack/1.8) *((maxDef-currentPlayer?.base.Defense)/maxDef))
+  const playerSPDmg = Math.floor((currentPlayer?.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy?.base["Sp. Defense"])/maxSPDef))
+  const enemySPDmg = Math.floor((currentEnemy?.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer?.base["Sp. Defense"])/maxSPDef))
 
   const enemyAttack = randomNumber() > 30 ? enemyDmg : enemySPDmg
   const playerAttack = randomNumber() > 30 ? playerDmg : playerSPDmg
@@ -84,6 +84,8 @@ function basicAttack() {
   else if (currentEnemy.base.HP < playerDmg) {
     currentEnemy.base.HP = 0
     setCurrentEnemy({...currentEnemy})
+    currentPlayer.base.HP = initialPlayerHp
+    setInitialPlayerHp({...currentPlayer})
     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
   } 
@@ -98,6 +100,8 @@ function basicAttack() {
       else if (currentEnemy.base.HP < playerSPDmg) {
           currentEnemy.base.HP = 0
           setCurrentEnemy({...currentEnemy})
+          currentPlayer.base.HP = initialPlayerHp
+          setInitialPlayerHp({...currentPlayer})
           document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
           document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
       } 
@@ -168,7 +172,7 @@ useEffect(() => {
                     customLabel="HP"
                   />
                   <ProgressBar
-                    completed={currentPlayer.base.Attack}
+                    completed={currentPlayer?.base.Attack}
                     maxCompleted={maxAtt}
                     bgColor="#E2A43A"
                     height="15px"
@@ -178,7 +182,7 @@ useEffect(() => {
                     customLabel="ATK"
                   />
                   <ProgressBar
-                    completed={currentPlayer.base.Defense}
+                    completed={currentPlayer?.base.Defense}
                     maxCompleted={maxDef}
                     bgColor="#A23AE2"
                     height="15px"
@@ -188,7 +192,7 @@ useEffect(() => {
                     customLabel="DEF"
                   />
                   <ProgressBar
-                    completed={currentPlayer.base["Sp. Attack"]}
+                    completed={currentPlayer?.base["Sp. Attack"]}
                     maxCompleted={maxSPAtt}
                     bgColor="#7ABCE0"
                     height="15px"
@@ -198,7 +202,7 @@ useEffect(() => {
                     customLabel="SP.ATK"
                   />
                   <ProgressBar
-                    completed={currentPlayer.base["Sp. Defense"]}
+                    completed={currentPlayer?.base["Sp. Defense"]}
                     maxCompleted={maxSPDef}
                     bgColor="#AA87D3"
                     height="15px"
@@ -208,7 +212,7 @@ useEffect(() => {
                     customLabel="SP.DEF"
                   />
                   <ProgressBar
-                    completed={currentPlayer.base.Speed}
+                    completed={currentPlayer?.base.Speed}
                     maxCompleted={maxSp}
                     bgColor="#88E07A"
                     height="15px"
@@ -220,17 +224,17 @@ useEffect(() => {
                   </div>
                   <div className="arena__body_arena_body_fighter_stat-stats">
                     <div>{currentPlayer?.base.HP}/{initialPlayerHp}</div>
-                    <div>{currentPlayer.base.Attack}/{maxAtt}</div>
-                    <div>{currentPlayer.base.Defense}/{maxDef}</div>
-                    <div>{currentPlayer.base["Sp. Attack"]}/{maxSPAtt}</div>
-                    <div>{currentPlayer.base["Sp. Defense"]}/{maxSPDef}</div>
-                    <div>{currentPlayer.base.Speed}/{maxSp}</div>
+                    <div>{currentPlayer?.base.Attack}/{maxAtt}</div>
+                    <div>{currentPlayer?.base.Defense}/{maxDef}</div>
+                    <div>{currentPlayer?.base["Sp. Attack"]}/{maxSPAtt}</div>
+                    <div>{currentPlayer?.base["Sp. Defense"]}/{maxSPDef}</div>
+                    <div>{currentPlayer?.base.Speed}/{maxSp}</div>
                   </div>
                 </div>
                 <div className="arena__body_arena_body_fighter_stat">
                   <div className="arena__body_arena_body_fighter_stat-bars">
                     <ProgressBar
-                      completed={currentEnemy.base.HP}
+                      completed={currentEnemy?.base.HP}
                       maxCompleted={initialEnemyHp}
                       bgColor="#ee080e"
                       height="15px"
@@ -240,7 +244,7 @@ useEffect(() => {
                       customLabel="HP"
                     />
                     <ProgressBar
-                      completed={currentEnemy.base.Attack}
+                      completed={currentEnemy?.base.Attack}
                       maxCompleted={maxAtt}
                       bgColor="#E2A43A"
                       height="15px"
@@ -250,7 +254,7 @@ useEffect(() => {
                       customLabel="ATK"
                     />
                     <ProgressBar
-                      completed={currentEnemy.base.Defense}
+                      completed={currentEnemy?.base.Defense}
                       maxCompleted={maxDef}
                       bgColor="#A23AE2"
                       height="15px"
@@ -260,7 +264,7 @@ useEffect(() => {
                       customLabel="DEF"
                     />
                     <ProgressBar
-                      completed={currentEnemy.base.Defense}
+                      completed={currentEnemy?.base.Defense}
                       maxCompleted={maxSPAtt}
                       bgColor="#7ABCE0"
                       height="15px"
@@ -270,7 +274,7 @@ useEffect(() => {
                       customLabel="SP.ATK"
                     />
                     <ProgressBar
-                      completed={currentEnemy.base.Defense}
+                      completed={currentEnemy?.base.Defense}
                       maxCompleted={maxSPDef}
                       bgColor="#AA87D3"
                       height="15px"
@@ -280,7 +284,7 @@ useEffect(() => {
                       customLabel="SP.DEF"
                     />
                     <ProgressBar
-                      completed={currentEnemy.base.Defense}
+                      completed={currentEnemy?.base.Defense}
                       maxCompleted={maxSp}
                       bgColor="#88E07A"
                       height="15px"
@@ -292,11 +296,11 @@ useEffect(() => {
                   </div>
                   <div className="arena__body_arena_body_fighter_stat-stats">
                     <div>{currentEnemy?.base.HP}/{initialEnemyHp}</div>
-                    <div>{currentEnemy.base.Attack}/{maxAtt}</div>
-                    <div>{currentEnemy.base.Defense}/{maxDef}</div>
-                    <div>{currentEnemy.base["Sp. Attack"]}/{maxSPAtt}</div>
-                    <div>{currentEnemy.base["Sp. Defense"]}/{maxSPDef}</div>
-                    <div>{currentEnemy.base.Speed}/{maxSp}</div>
+                    <div>{currentEnemy?.base.Attack}/{maxAtt}</div>
+                    <div>{currentEnemy?.base.Defense}/{maxDef}</div>
+                    <div>{currentEnemy?.base["Sp. Attack"]}/{maxSPAtt}</div>
+                    <div>{currentEnemy?.base["Sp. Defense"]}/{maxSPDef}</div>
+                    <div>{currentEnemy?.base.Speed}/{maxSp}</div>
                   </div>
               </div>
             </div>
