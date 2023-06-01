@@ -17,10 +17,9 @@ export default function Arena({selectedPoke, dataImg}) {
   const fetchEnemyImg = async () => {
     try {
       const res = await fetch(enemyImgData?.url)
-    const data = await res.json()
-    setEnemyImg(data.sprites.other.dream_world.front_default)
+      const data = await res.json()
+      setEnemyImg(data.sprites.other.dream_world.front_default)
     // console.log(data)
-
     } catch (error) {
       console.log(error);
     }
@@ -84,8 +83,8 @@ function basicAttack() {
   else if (currentEnemy.base.HP < playerDmg) {
     currentEnemy.base.HP = 0
     setCurrentEnemy({...currentEnemy})
-    currentPlayer.base.HP = initialPlayerHp
-    setInitialPlayerHp({...currentPlayer})
+    // currentPlayer.base.HP = initialPlayerHp
+    // setInitialPlayerHp({...currentPlayer})
     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
   } 
@@ -100,8 +99,8 @@ function basicAttack() {
       else if (currentEnemy.base.HP < playerSPDmg) {
           currentEnemy.base.HP = 0
           setCurrentEnemy({...currentEnemy})
-          currentPlayer.base.HP = initialPlayerHp
-          setInitialPlayerHp({...currentPlayer})
+          // currentPlayer.base.HP = initialPlayerHp
+          // setInitialPlayerHp({...currentPlayer})
           document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
           document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
       } 
@@ -124,15 +123,19 @@ function basicAttack() {
       document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
     }
   }
+  
 }
-
 useEffect(() => {
   if (currentEnemy.base.HP <= 0) {
     const newEnemy = data[randomNumber()]
     setCurrentEnemy(newEnemy)
-    setInitialEnemyHp(newEnemy.base.HP)
+    setInitialEnemyHp(newEnemy?.base.HP)
+    setInitialPlayerHp(currentPlayer.base.HP)
   }    
- },[currentEnemy.base.HP, data, randomNumber])
+ },[currentEnemy.base.HP])
+
+
+
 
             //------------------- Type Chart ------------------------//
 
