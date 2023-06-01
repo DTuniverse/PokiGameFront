@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Arena from "./components/Arena";
 import LandingPage from "./components/LandingPage";
 import Modal from "./components/Modal";
-import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -50,14 +49,14 @@ function App() {
 
   return (
     <div className="App">
-      <Container sx={{ width: 900 }}>
+      
         <Routes>
           {console.log("Selected Poke", selectedPoke)}
-          <Route path="/" element={<LandingPage data={data} dataImg={dataImg} setSelectedPoke={setSelectedPoke} />} />
-          <Route path="/pokemon/:id" element={<Modal />} />
+          <Route path="/" element={<LandingPage data={data} dataImg={dataImg} setSelectedPoke={setSelectedPoke} />} />   
           <Route path="/pokemon/arena" element={<Arena selectedPoke={selectedPoke} dataImg={dataImg} />} />
         </Routes>
-      </Container>
+         
+      
     </div>
   );
 }
