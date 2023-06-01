@@ -7,10 +7,10 @@ export default function PokiCardOnLanding({ poki, index, img, setImgOfSelected }
   
   const fetchActualImg = async () => {
     try {
-      const res = await fetch(img.url)
+      const res = await fetch(img?.url)
     const data = await res.json()
-    setActualImg(data.sprites.front_default)
-    setImgOfSelected(data.sprites.front_default)
+    setActualImg(data.sprites.other.dream_world.front_default)
+    setImgOfSelected(data.sprites.other.dream_world.front_default)
     // console.log(data)
 
     } catch (error) {
@@ -41,6 +41,7 @@ export default function PokiCardOnLanding({ poki, index, img, setImgOfSelected }
       <div id="pokiNameLanding" key={poki.id}>
         {poki.name.english}
       </div>
+      
     </div>
   );
 }

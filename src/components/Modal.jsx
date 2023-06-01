@@ -12,7 +12,7 @@ export default function Modal({data, dataImg, indexOfSelected, imgOfSelected, se
       try {
         const res = await fetch(imgOfSelected.url)
       const data = await res.json()
-      setModalImg(data.sprites.front_default)
+      setModalImg(data.sprites.other.dream_world.front_default)
       // console.log(data)
       } catch (error) {
         console.log(error)
