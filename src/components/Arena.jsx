@@ -2,6 +2,12 @@ import { useState, useEffect } from "react"
 import "./Arena.css"
 import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
+import Fighter from "../components/Fighter"
+import Modal_arena from "../components/Modal_arena"
+
+import BasicCard from './Modal_Card';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
 
 
 export default function Arena({selectedPoke, dataImg}) {
@@ -151,6 +157,8 @@ useEffect(() => {
     <div className="arena__wrapper">
       <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
+        {/* <Fighter /> */}
+        <Modal_arena />
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
             <div className="arena__body_arena_header_card">{currentPlayer?.name.english}</div>

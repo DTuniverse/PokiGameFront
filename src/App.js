@@ -4,6 +4,7 @@ import Arena from "./components/Arena";
 import LandingPage from "./components/LandingPage";
 import Modal from "./components/Modal";
 import { useEffect, useState } from "react";
+import Fighter from "./components/Fighter"
 
 function App() {
   const [dataIsLoaded, setDataIsLoaded] = useState(false)
