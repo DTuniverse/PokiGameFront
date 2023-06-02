@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import './Modal_arena.css';
 import Fighter from './Fighter';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Modal({ imgOfSelected }) {
+  const maxHP = 255
+  const maxAtt = 181
+  const maxDef = 230
+  const maxSPAtt = 173
+  const maxSPDef = 230
+  const maxSp = 160
   const [open, setOpen] = useState(false);
   const [modalImg, setModalImg] = useState("");
   const [pokemonData, setPokemonData] = useState(null);
   const [pokemonImage, setPokemonImage] = useState('/pokeball.png');
   const [searchTerm, setSearchTerm] = useState('');
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (searchTerm.trim() !== '') {
@@ -65,6 +72,20 @@ export default function Modal({ imgOfSelected }) {
     setOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        handleClose();
+      }
+    };
+
+    window.addEventListener('click', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div>
       <button onClick={handleClickOpen}>Button to test</button>
@@ -72,10 +93,15 @@ export default function Modal({ imgOfSelected }) {
         <div className="custom-modal">
           <div className="custom-modal-content">
             <div className="custom-modal-content-header">
-              Please Choose a New Pokemon! <br />
-              {/* <Fighter /> */}
-              {/* Insert the first code block here */}
-              <div className="flex-container-pokiCard">
+              <div className="custom-modal-content-header_title">
+                Choose a New Pokemon!
+              </div>
+              <div className="custom-modal-content-header_body">
+                <div>
+                  <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search Pokemon" />
+                </div>
+              </div>
+              {/* <div className="flex-container-pokiCard">
                 <div>
                   <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search Pokemon" />
                 </div> <br /><br />
@@ -90,22 +116,85 @@ export default function Modal({ imgOfSelected }) {
                     />
                   </div>
                 </div>
-              </div>
-              {/* End of first code block */}
+              </div> */}
             </div>
             <div className="custom-modal-content-body">
               <div className="custom-modal-content-img_container">
-                IMG FOR POKEMON
+                <img src={pokemonImage}/>
               </div>
-              <div className="custom-modal-content-stats">
-                STATS FOR POKEMON <br />
-                STATS FOR POKEMON <br />
-                STATS FOR POKEMON <br />
-                STATS FOR POKEMON <br />
-                STATS FOR POKEMON <br />
-                STATS FOR POKEMON <br />
+              <div className="custom-modal-content-stats_container">
+                <div className="custom-modal-content-stats">
+                <ProgressBar
+                      completed={pokemonData?.base.HP}
+                      maxCompleted={maxHP}
+                      bgColor="#ee080e"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="HP"
+                    />
+                  <ProgressBar
+                      completed={pokemonData?.base.Attack}
+                      maxCompleted={maxAtt}
+                      bgColor="#E2A43A"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="ATK"
+                    />
+                    <ProgressBar
+                      completed={pokemonData?.base.Defense}
+                      maxCompleted={maxDef}
+                      bgColor="#A23AE2"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="DEF"
+                    />
+                    <ProgressBar
+                      completed={pokemonData?.base["Sp. Attack"]}
+                      maxCompleted={maxSPAtt}
+                      bgColor="#7ABCE0"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="SP.ATK"
+                    />
+                    <ProgressBar
+                      completed={pokemonData?.base["Sp. Defense"]}
+                      maxCompleted={maxSPDef}
+                      bgColor="#AA87D3"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="SP.DEF"
+                    />
+                    <ProgressBar
+                      completed={pokemonData?.base.Speed}
+                      maxCompleted={maxSp}
+                      bgColor="#88E07A"
+                      height="15px"
+                      width="70%"
+                      labelAlignment="center"
+                      labelColor="#030303"
+                      customLabel="SPD"
+                    />
+                </div>
+                <div className="custom-modal-content-stat_values">
+                  <div>{pokemonData?.base.HP}/{maxHP}</div>
+                  <div>{pokemonData?.base.Attack}/{maxAtt}</div>
+                  <div>{pokemonData?.base.Defense}/{maxDef}</div>
+                  <div>{pokemonData?.base["Sp. Attack"]}/{maxSPAtt}</div>
+                  <div>{pokemonData?.base["Sp. Defense"]}/{maxSPDef}</div>
+                  <div>{pokemonData?.base.Speed}/{maxSp}</div>
+                </div>
+                            </div>
               </div>
-            </div>
             
             <button className="custom-modal-close" onClick={handleClose}>
             Close
@@ -117,6 +206,9 @@ export default function Modal({ imgOfSelected }) {
     </div>
   );
 };
+
+
+
 
 // Modal.propTypes = {
 //   data: PropTypes.array,
