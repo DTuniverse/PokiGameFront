@@ -155,7 +155,6 @@ useEffect(() => {
     <div className="arena__wrapper">
       <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
-        {/* <Fighter /> */}
         <Modal_arena />
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">

@@ -5,15 +5,11 @@ export default function Fighter() {
     const [pokemonData, setPokemonData] = useState(null);
     const [pokemonImage, setPokemonImage] = useState('/pokeball.png');
     const [searchTerm, setSearchTerm] = useState('');
-    // const [isLoading, setIsLoading] = useState(false);
-
+  
     useEffect(() => {
         if (searchTerm.trim() !== '') {
         fetchData();
-        } else {
-            // setIsLoading(true);
-        }
-    }, [searchTerm]);
+        }}, [searchTerm]);
 
     const fetchData = async () => {
         try {
@@ -34,7 +30,7 @@ export default function Fighter() {
         } catch (error) {
         console.error('Error fetching data:', error);
         } finally {
-        // setIsLoading(false);
+
         }
     };
 
