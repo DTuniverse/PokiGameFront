@@ -1,25 +1,10 @@
-import BasicCard_arena from './Modal_Card_arena';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
-import "./Modal_arena.css";  
+import './Modal_arena.css';
 
-import { DialogContent, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
-  customDialog: {
-    maxWidth: '800px', // Set your desired max width here
-  },
-}));
-
-
-export default function Modal({ data, dataImg, indexOfSelected, imgOfSelected, setSelectedPoke }) {
-  const [open, setOpen] = React.useState(false);
-  const [modalImg, setModalImg] = React.useState("");
-  const classes = useStyles();
+const Modal = ({ data, dataImg, indexOfSelected, imgOfSelected, setSelectedPoke }) => {
+  const [open, setOpen] = useState(false);
+  const [modalImg, setModalImg] = useState("");
 
   const fetchActualImg = async () => {
     try {
@@ -31,7 +16,7 @@ export default function Modal({ data, dataImg, indexOfSelected, imgOfSelected, s
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchActualImg();
   }, [imgOfSelected]);
 
@@ -39,50 +24,62 @@ export default function Modal({ data, dataImg, indexOfSelected, imgOfSelected, s
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <div>
       <button onClick={handleClickOpen}>Button to test</button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        classes={{ paper: classes.customDialog }} // Apply custom style class to the paper class of the Dialog component
-        data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} setSelectedPoke={setSelectedPoke} modalImg={modalImg}
-      >
-        {/* Your dialog content */}
-      </Dialog>
+      {open && (
+        <div className="custom-modal">
+          <div className="custom-modal-content">
+            {/* Your custom dialog content */}
+          </div>
+          <button className="custom-modal-close" onClick={handleClose}>
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+Modal.propTypes = {
+  data: PropTypes.array,
+  dataImg: PropTypes.array,
+  indexOfSelected: PropTypes.number,
+  imgOfSelected: PropTypes.object,
+  setSelectedPoke: PropTypes.func,
+};
+
+export default Modal;
 
 
 
 
   
-function SimpleDialog(props) {
-  const { data, dataImg, indexOfSelected, modalImg, onClose, selectedValue, open, setSelectedPoke } = props;
+// function SimpleDialog(props) {
+//   const { data, dataImg, indexOfSelected, modalImg, onClose, selectedValue, open, setSelectedPoke } = props;
 
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
+//   const handleClose = () => {
+//     onClose(selectedValue);
+//   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
-  };
+//   const handleListItemClick = (value) => {
+//     onClose(value);
+//   };
 
-  return (
-    <Dialog onClose={handleClose} open={open} >
-      {/* <DialogTitle sx={{textAlign:'center', backgroundColor:"black", color:"white"}}>{data[indexOfSelected].name.english}</DialogTitle> */}
-      <BasicCard_arena sx={{width: 800}} />
-    </Dialog>
-  );
-}
+//   return (
+//     <Dialog onClose={handleClose} open={open} >
+//       {/* <DialogTitle sx={{textAlign:'center', backgroundColor:"black", color:"white"}}>{data[indexOfSelected].name.english}</DialogTitle> */}
+//       <BasicCard_arena sx={{width: 800}} />
+//     </Dialog>
+//   );
+// }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  // selectedValue: PropTypes.string.isRequired,
-};
+// SimpleDialog.propTypes = {
+//   onClose: PropTypes.func.isRequired,
+//   open: PropTypes.bool.isRequired,
+//   // selectedValue: PropTypes.string.isRequired,
+// };

@@ -4,10 +4,8 @@ import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
 import Fighter from "../components/Fighter"
 import Modal_arena from "../components/Modal_arena"
+import { Link } from "react-router-dom"
 
-import BasicCard from './Modal_Card';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
 
 
 export default function Arena({selectedPoke, dataImg}) {
