@@ -5,20 +5,16 @@ export default function Fighter() {
     const [pokemonData, setPokemonData] = useState(null);
     const [pokemonImage, setPokemonImage] = useState('/pokeball.png');
     const [searchTerm, setSearchTerm] = useState('');
-    // const [isLoading, setIsLoading] = useState(false);
-
+  
     useEffect(() => {
         if (searchTerm.trim() !== '') {
         fetchData();
-        } else {
-            // setIsLoading(true);
-        }
-    }, [searchTerm]);
+        }}, [searchTerm]);
 
     const fetchData = async () => {
         try {
         // setIsLoading(true);
-        const response = await fetch('http://localhost:5000/pokemon');
+        const response = await fetch('https://pokigameback.onrender.com/pokemon');
         const data = await response.json();
         console.log(data);
         const pokemon = data.allPokemon.find((pokemon) => pokemon.name.english.toLowerCase() === searchTerm.toLowerCase());
@@ -27,14 +23,14 @@ export default function Fighter() {
         if (pokemon) {
         const imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name.english.toLowerCase()}`)
         const imageData = await imageResponse.json();
-        setPokemonImage(imageData.sprites.front_default);
+        setPokemonImage(imageData.sprites.other.dream_world.front_default);
         } else {
         setPokemonImage('/pokeball.png');
         }
         } catch (error) {
         console.error('Error fetching data:', error);
         } finally {
-        // setIsLoading(false);
+
         }
     };
 
@@ -43,8 +39,12 @@ export default function Fighter() {
     };
 
     return (
+        
     <div className="flex-container-pokiCard">
-        <div id="pokiCard" className="pokiCard">
+        <div>
+            <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search Pokemon" />
+        </div> <br /><br />
+        <div className='arena__modal_img'>
             <div className="pokiCardContent">
                 <img
                 id="imgPokiCardOnLanding"
@@ -55,14 +55,10 @@ export default function Fighter() {
                 />
             </div>
         </div>
-        <div id="pokiNameLanding">
-    </div>
 </div>
 );
 }
-//             <div>
-//                 <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search Pokemon" />
-//             </div>
+            
 //             {isLoading || !pokemonImage ? (
 //                 <img src="/pokeball.png" alt="Loading" /> 
 //             ) : (
