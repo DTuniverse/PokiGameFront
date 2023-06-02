@@ -46,7 +46,7 @@ export default function BasicCard({data, dataImg, indexOfSelected, modalImg, set
         
       </CardContent>
       <CardActions sx={{flexDirection:"column"}}>
-        <Link to="/pokemon/arena"><Button onClick={handleClick} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}>I choose you {data[indexOfSelected]?.name.english}</Button></Link>
+        <Button onClick={handleClick} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}><Link id="btn_choose" to="/pokemon/arena">I choose you {data[indexOfSelected]?.name.english}</Link></Button>
         <Button onClick={handleClose} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "red",color: "white"}}}>Not this Time!</Button>
       </CardActions>
     </Card>

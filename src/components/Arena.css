@@ -1,7 +1,7 @@
-/* body {
+body {
     background: rgb(185,38,38);
 background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%);
-} */
+}
 
 .arena__wrapper {
     display: flex;
