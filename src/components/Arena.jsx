@@ -134,6 +134,7 @@ useEffect(() => {
     const newEnemy = data[randomNumber()]
     setCurrentEnemy(newEnemy)
     setInitialEnemyHp(newEnemy?.base.HP)
+    currentPlayer.base.HP = initialPlayerHp
     setInitialPlayerHp(currentPlayer.base.HP)
   }    
  },[currentEnemy.base.HP])
