@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import './Modal_arena.css';
-import Fighter from './Fighter';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Modal({ imgOfSelected }) {
@@ -74,7 +73,7 @@ export default function Modal({ imgOfSelected }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+      if (modalRef.current && !modalRef.current.contains(event.target) && !event.target.classList.contains('modal-button')) {
         handleClose();
       }
     };
@@ -88,10 +87,10 @@ export default function Modal({ imgOfSelected }) {
 
   return (
     <div>
-      <button onClick={handleClickOpen}>Button to test</button>
+      <button className="modal-button" onClick={handleClickOpen}>Button to test</button>
       {open && (
         <div className="custom-modal">
-          <div className="custom-modal-content">
+          <div className="custom-modal-content" ref={modalRef}>
             <div className="custom-modal-content-header">
               <div className="custom-modal-content-header_title">
                 Choose a New Pokemon!
@@ -101,22 +100,6 @@ export default function Modal({ imgOfSelected }) {
                   <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search Pokemon" />
                 </div>
               </div>
-              {/* <div className="flex-container-pokiCard">
-                <div>
-                  <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search Pokemon" />
-                </div> <br /><br />
-                <div className='arena__modal_img'>
-                  <div className="pokiCardContent">
-                    <img
-                      id="imgPokiCardOnLanding"
-                      src={pokemonImage}
-                      alt={pokemonData?.name.english}
-                      width="100px"
-                      height="auto"
-                    />
-                  </div>
-                </div>
-              </div> */}
             </div>
             <div className="custom-modal-content-body">
               <div className="custom-modal-content-img_container">
@@ -210,13 +193,13 @@ export default function Modal({ imgOfSelected }) {
 
 
 
-// Modal.propTypes = {
-//   data: PropTypes.array,
-//   dataImg: PropTypes.array,
-//   indexOfSelected: PropTypes.number,
-//   imgOfSelected: PropTypes.object,
-//   setSelectedPoke: PropTypes.func,
-// };
+Modal.propTypes = {
+  data: PropTypes.array,
+  dataImg: PropTypes.array,
+  indexOfSelected: PropTypes.number,
+  imgOfSelected: PropTypes.object,
+  setSelectedPoke: PropTypes.func,
+};
 
 
 
