@@ -4,6 +4,7 @@ import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
 import Modal_arena from "../components/Modal_arena"
 import { Link } from "react-router-dom"
+import Modal_win from "./Modal_win";
 
 
 
@@ -17,6 +18,9 @@ export default function Arena({selectedPoke, dataImg}) {
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
   const [ defeatedPokemons, setDefeatedPokemons ] = useState([])
   const [ enemyImg, setEnemyImg ] = useState()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ gameState, setGameState ] = useState("")
+  
   const enemyImgData = dataImg?.find(i=>i.name===currentEnemy?.name.english.toLowerCase())
   const fetchEnemyImg = async () => {
     try {
@@ -129,6 +133,19 @@ function basicAttack() {
   }
 }
 
+useEffect(() => {
+  if (defeatedPokemons.length === 4) {
+    setIsModalOpen(true);  
+  }
+}, [defeatedPokemons]);
+
+// useEffect(() => {
+//   if (defeatedPokemons.length >= 4) {
+//     // alert("CONGRATULATIONS!!! YOU HAVE DEFEATED THE ENEMY TEAM")
+//     console.log("this is with the alert", defeatedPokemons)
+//   }
+// },[defeatedPokemons])
+
   useEffect(() => {
   if (currentEnemy.base.HP <= 0) {
     const newEnemy = data[randomNumber()]
@@ -139,18 +156,7 @@ function basicAttack() {
   }    
  },[currentEnemy.base.HP])
 
-  useEffect(() => {
-    if (defeatedPokemons.length == 4) {
-      alert("CONGRATULATIONS!!! YOU HAVE DEFEATED THE ENEMY TEAM")
-      console.log("this is with the alert", defeatedPokemons)
-    }
-  },[defeatedPokemons])
-
-//  useEffect(() => {
-//   if (defeatedPokemons.length = 4) {
-//     alert("CONGRATULATIONS!!! YOU HAVE DEFEATED THE ENEMY TEAM")
-//   }
-//  },[])
+ 
 
 
             //------------------- Type Chart ------------------------//
@@ -165,6 +171,7 @@ function basicAttack() {
 
   return (
     <div className="arena__wrapper">
+      {isModalOpen ? <Modal_win/> : ""}
       <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
         {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} /> : ""}
