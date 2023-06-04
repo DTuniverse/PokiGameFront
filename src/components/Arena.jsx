@@ -19,7 +19,6 @@ export default function Arena({selectedPoke, dataImg}) {
   const [ defeatedPokemons, setDefeatedPokemons ] = useState([])
   const [ enemyImg, setEnemyImg ] = useState()
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ gameState, setGameState ] = useState("")
   
   const enemyImgData = dataImg?.find(i=>i.name===currentEnemy?.name.english.toLowerCase())
   const fetchEnemyImg = async () => {
@@ -134,7 +133,7 @@ function basicAttack() {
 }
 
 useEffect(() => {
-  if (defeatedPokemons.length === 4) {
+  if (defeatedPokemons.length >= 4) {
     setIsModalOpen(true);  
   }
 }, [defeatedPokemons]);
@@ -171,7 +170,7 @@ useEffect(() => {
 
   return (
     <div className="arena__wrapper">
-      {isModalOpen ? <Modal_win/> : ""}
+      {isModalOpen ? <Modal_win currentPlayer={currentPlayer} currentPlayerImg={currentPlayerImg} /> : ""}
       <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
         {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} /> : ""}
