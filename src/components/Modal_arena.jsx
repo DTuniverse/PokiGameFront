@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Modal_arena.css';
 import ProgressBar from "@ramonak/react-progress-bar";
 
-export default function Modal({ imgOfSelected }) {
+export default function Modal() {
   const maxHP = 255
   const maxAtt = 181
   const maxDef = 230
@@ -11,7 +11,6 @@ export default function Modal({ imgOfSelected }) {
   const maxSPDef = 230
   const maxSp = 160
   const [open, setOpen] = useState(false);
-  const [modalImg, setModalImg] = useState("");
   const [pokemonData, setPokemonData] = useState(null);
   const [pokemonImage, setPokemonImage] = useState('/pokeball.png');
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,21 +48,7 @@ export default function Modal({ imgOfSelected }) {
     setSearchTerm(event.target.value);
   };
 
-  const fetchActualImg = async () => {
-    try {
-      const res = await fetch(imgOfSelected?.url);
-      const data = await res.json();
-      setModalImg(data.sprites.other.dream_world.front_default);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchActualImg();
-  }, [imgOfSelected]);
-
-  const handleClickOpen = () => {
+   const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -85,9 +70,9 @@ export default function Modal({ imgOfSelected }) {
     };
   }, []);
 
-  return (
+return (
     <div>
-      <button className="modal-button" onClick={handleClickOpen}>Button to test</button>
+      <button className="modal-button" onClick={handleClickOpen}>Choose a new Pokemon to fight!</button>
       {open && (
         <div className="custom-modal">
           <div className="custom-modal-content" ref={modalRef}>
