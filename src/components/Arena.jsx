@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import "./Arena.css"
 import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
-import Fighter from "../components/Fighter"
 import Modal_arena from "../components/Modal_arena"
 import { Link } from "react-router-dom"
 
@@ -11,6 +10,7 @@ import { Link } from "react-router-dom"
 export default function Arena({selectedPoke, dataImg}) {
 // ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
   const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
+  const enemyTeam = [data[randomNumber()],data[randomNumber()],data[randomNumber()],data[randomNumber()]]
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
   const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke?.data) 
   let currentPlayerImg = selectedPoke?.dataImg
@@ -71,6 +71,7 @@ export default function Arena({selectedPoke, dataImg}) {
     console.log("current enemy", currentEnemy)
     console.log("initial player HP", initialPlayerHp)
     console.log("initial enemy HP", initialEnemyHp)
+    console.log("enemy team", enemyTeam)
     // console.log("remaining player hp", playerRemainingHP)
     // console.log("remaining enemy hp", enemyRemainingHp)
     // console.log("random num1", randomNumber())
