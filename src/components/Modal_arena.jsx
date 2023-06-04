@@ -26,12 +26,10 @@ export default function Modal({ setCurrentPlayer, setCurrentPlayerImg, setInitia
     try {
       const response = await fetch('https://pokigameback.onrender.com/pokemon');
       const data = await response.json();
-      // console.log(data);
       const pokemon = data.allPokemon.find(
         (pokemon) => pokemon.name.english.toLowerCase() === searchTerm.toLowerCase()
       );
       setPokemonData(pokemon);
-      // console.log(pokemon)
 
       if (pokemon) {
         const imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name.english.toLowerCase()}`)
@@ -172,7 +170,6 @@ return (
                     <div>{pokemonData?.base.Speed}/{maxSp}</div>
                   </div>
                 </div>
-                
             </div>
               <div className='custom-modal-content-footer'>
                 <button onClick={handleCurrentPlayer}>I choose you!</button>
@@ -186,44 +183,3 @@ return (
     </div>
   );
 };
-
-
-
-
-Modal.propTypes = {
-  data: PropTypes.array,
-  dataImg: PropTypes.array,
-  indexOfSelected: PropTypes.number,
-  imgOfSelected: PropTypes.object,
-  setSelectedPoke: PropTypes.func,
-};
-
-
-
-
-
-  
-// function SimpleDialog(props) {
-//   const { data, dataImg, indexOfSelected, modalImg, onClose, selectedValue, open, setSelectedPoke } = props;
-
-//   const handleClose = () => {
-//     onClose(selectedValue);
-//   };
-
-//   const handleListItemClick = (value) => {
-//     onClose(value);
-//   };
-
-//   return (
-//     <Dialog onClose={handleClose} open={open} >
-//       {/* <DialogTitle sx={{textAlign:'center', backgroundColor:"black", color:"white"}}>{data[indexOfSelected].name.english}</DialogTitle> */}
-//       <BasicCard_arena sx={{width: 800}} />
-//     </Dialog>
-//   );
-// }
-
-// SimpleDialog.propTypes = {
-//   onClose: PropTypes.func.isRequired,
-//   open: PropTypes.bool.isRequired,
-//   // selectedValue: PropTypes.string.isRequired,
-// };

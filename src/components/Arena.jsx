@@ -3,15 +3,14 @@ import "./Arena.css"
 import data from "../data.json"
 import ProgressBar from "@ramonak/react-progress-bar";
 import Modal_arena from "../components/Modal_arena"
-import { Link } from "react-router-dom"
 import Modal_win from "./Modal_win";
 
 
 
 export default function Arena({selectedPoke, dataImg}) {
-// ---------------------  Setting up Player Pokemon and Enemy Pokemon ------------------//
+
+// ---------------------  Setting up Player Pokemon and Enemy Pokemon and Utils -----------------------------------//
   const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
-  const enemyTeam = [data[randomNumber()],data[randomNumber()],data[randomNumber()],data[randomNumber()]]
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
   const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke?.data) 
   const [ currentPlayerImg, setCurrentPlayerImg ] = useState(selectedPoke?.dataImg)
@@ -19,7 +18,37 @@ export default function Arena({selectedPoke, dataImg}) {
   const [ defeatedPokemons, setDefeatedPokemons ] = useState([])
   const [ enemyImg, setEnemyImg ] = useState()
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
+  const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
+
+  const maxHP = 255
+  const maxAtt = 181
+  const maxDef = 230
+  const maxSPAtt = 173
+  const maxSPDef = 230
+  const maxSp = 160
+ 
+   const playerDmg = Math.floor((currentPlayer?.base.Attack/1.8) *((maxDef-currentEnemy?.base.Defense)/maxDef))
+   const enemyDmg = Math.floor((currentEnemy?.base.Attack/1.8) *((maxDef-currentPlayer?.base.Defense)/maxDef))
+   const playerSPDmg = Math.floor((currentPlayer?.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy?.base["Sp. Defense"])/maxSPDef))
+   const enemySPDmg = Math.floor((currentEnemy?.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer?.base["Sp. Defense"])/maxSPDef))
+
+   function randomNumber() {
+    let randomNum = Math.floor(Math.random() * 100)
+    return randomNum
+  }
+
+  function consoleLog() {
+    console.log("current pokemon", currentPlayer)
+    console.log("current enemy", currentEnemy)
+    console.log("initial player HP", initialPlayerHp)
+    console.log("initial enemy HP", initialEnemyHp)
+    console.log("this is defeated pokemons array", defeatedPokemons)
+    // console.log("enemy team", enemyTeam)
+    // console.log("remaining player hp", playerRemainingHP)
+    // console.log("remaining enemy hp", enemyRemainingHp)
+  }
+
   const enemyImgData = dataImg?.find(i=>i.name===currentEnemy?.name.english.toLowerCase())
   const fetchEnemyImg = async () => {
     try {
@@ -35,53 +64,24 @@ export default function Arena({selectedPoke, dataImg}) {
   useEffect(() => {
     fetchEnemyImg();
   }, [currentEnemy]);
+
+  useEffect(() => {
+    if (defeatedPokemons.length >= 4) {
+      setIsModalOpen(true);  
+    }
+  }, [defeatedPokemons]);
   
-  // console.log("This is current Enemy Image", enemyImgData)
-  // console.log("This is current enemy",currentEnemy)
-  
-  const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
-  const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
+    useEffect(() => {
+    if (currentEnemy.base.HP <= 0) {
+      const newEnemy = data[randomNumber()]
+      setCurrentEnemy(newEnemy)
+      setInitialEnemyHp(newEnemy?.base.HP)
+      currentPlayer.base.HP = initialPlayerHp
+      setInitialPlayerHp(currentPlayer.base.HP)
+    }    
+   },[currentEnemy.base.HP])
 
-// --------------------------------------------------------------------------------------//
- const maxHP = 255
- const maxAtt = 181
- const maxDef = 230
- const maxSPAtt = 173
- const maxSPDef = 230
- const maxSp = 160
-
-  const playerDmg = Math.floor((currentPlayer?.base.Attack/1.8) *((maxDef-currentEnemy?.base.Defense)/maxDef))
-  const enemyDmg = Math.floor((currentEnemy?.base.Attack/1.8) *((maxDef-currentPlayer?.base.Defense)/maxDef))
-  const playerSPDmg = Math.floor((currentPlayer?.base["Sp. Attack"]/1.7)*((maxSPDef-currentEnemy?.base["Sp. Defense"])/maxSPDef))
-  const enemySPDmg = Math.floor((currentEnemy?.base["Sp. Attack"]/1.7)*((maxSPDef-currentPlayer?.base["Sp. Defense"])/maxSPDef))
-
-  const enemyAttack = randomNumber() > 30 ? enemyDmg : enemySPDmg
-  const playerAttack = randomNumber() > 30 ? playerDmg : playerSPDmg
-
-  function randomNumber() {
-    let randomNum = Math.floor(Math.random() * 100)
-    return randomNum
-  }
-
-  // useEffect(() => {
-  //   // This runs only on the initial render
-  //   setIsMounted(true);
-  // }, []);
-   
-// --------------------------------------------------------------------------------------//
-  function consoleLog() {
-    console.log("current pokemon", currentPlayer)
-    console.log("current enemy", currentEnemy)
-    console.log("initial player HP", initialPlayerHp)
-    console.log("initial enemy HP", initialEnemyHp)
-    console.log("this is defeated pokemons array", defeatedPokemons)
-    // console.log("enemy team", enemyTeam)
-    // console.log("remaining player hp", playerRemainingHP)
-    // console.log("remaining enemy hp", enemyRemainingHp)
-    // console.log("random num1", randomNumber())
-    // console.log("random num2", randomNumber())
-  }
-//------------------------------ Combat Logic -----------------------------------------//
+//------------------------------ Combat Logic -------------------------------------------------------------------------//
 function basicAttack() {
   if (currentPlayer.base.HP < enemyDmg) {
     currentPlayer.base.HP = 0
@@ -131,34 +131,7 @@ function basicAttack() {
     }
   }
 }
-
-useEffect(() => {
-  if (defeatedPokemons.length >= 4) {
-    setIsModalOpen(true);  
-  }
-}, [defeatedPokemons]);
-
-// useEffect(() => {
-//   if (defeatedPokemons.length >= 4) {
-//     // alert("CONGRATULATIONS!!! YOU HAVE DEFEATED THE ENEMY TEAM")
-//     console.log("this is with the alert", defeatedPokemons)
-//   }
-// },[defeatedPokemons])
-
-  useEffect(() => {
-  if (currentEnemy.base.HP <= 0) {
-    const newEnemy = data[randomNumber()]
-    setCurrentEnemy(newEnemy)
-    setInitialEnemyHp(newEnemy?.base.HP)
-    currentPlayer.base.HP = initialPlayerHp
-    setInitialPlayerHp(currentPlayer.base.HP)
-  }    
- },[currentEnemy.base.HP])
-
- 
-
-
-            //------------------- Type Chart ------------------------//
+//------------------- Type Chart --------------------------------------------------//
 
  
 
@@ -166,7 +139,7 @@ useEffect(() => {
 
   
 
-//------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------------------------------------//
 
   return (
     <div className="arena__wrapper">
