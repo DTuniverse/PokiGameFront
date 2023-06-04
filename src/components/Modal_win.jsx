@@ -105,7 +105,7 @@ return (
             </div>
               <div className='custom-modal_win-content-footer'>
                 <NavLink to="/" activeClassName="current" >Start a new game</NavLink>
-                <NavLink to="/" activeClassName="current">Submit your scores and see leaderboard</NavLink>
+                <NavLink to="/pokemon/leaderboard" activeClassName="current">Submit your scores and see leaderboard</NavLink>
                 {/* <button className="custom-modal_win-close">
                 Close
                 </button> */}
