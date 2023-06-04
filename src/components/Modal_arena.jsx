@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Modal_arena.css';
 import ProgressBar from "@ramonak/react-progress-bar";
 
-export default function Modal() {
+export default function Modal({ setCurrentPlayer, setCurrentPlayerImg, setInitialPlayerHp }) {
   const maxHP = 255
   const maxAtt = 181
   const maxDef = 230
@@ -26,11 +26,12 @@ export default function Modal() {
     try {
       const response = await fetch('https://pokigameback.onrender.com/pokemon');
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const pokemon = data.allPokemon.find(
         (pokemon) => pokemon.name.english.toLowerCase() === searchTerm.toLowerCase()
       );
       setPokemonData(pokemon);
+      // console.log(pokemon)
 
       if (pokemon) {
         const imageResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name.english.toLowerCase()}`)
@@ -44,7 +45,7 @@ export default function Modal() {
     }
   };
 
-  const handleInputChange = (event) => {
+    const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
@@ -69,6 +70,15 @@ export default function Modal() {
       window.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  const handleCurrentPlayer = () => {
+    if (pokemonData) {
+      setCurrentPlayer(pokemonData)
+      setCurrentPlayerImg(pokemonImage)
+      setInitialPlayerHp(pokemonData.base.HP)
+      handleClose()
+    }
+  }
 
 return (
     <div>
@@ -153,22 +163,24 @@ return (
                       customLabel="SPD"
                     />
                 </div>
-                <div className="custom-modal-content-stat_values">
-                  <div>{pokemonData?.base.HP}/{maxHP}</div>
-                  <div>{pokemonData?.base.Attack}/{maxAtt}</div>
-                  <div>{pokemonData?.base.Defense}/{maxDef}</div>
-                  <div>{pokemonData?.base["Sp. Attack"]}/{maxSPAtt}</div>
-                  <div>{pokemonData?.base["Sp. Defense"]}/{maxSPDef}</div>
-                  <div>{pokemonData?.base.Speed}/{maxSp}</div>
+                  <div className="custom-modal-content-stat_values">
+                    <div>{pokemonData?.base.HP}/{maxHP}</div>
+                    <div>{pokemonData?.base.Attack}/{maxAtt}</div>
+                    <div>{pokemonData?.base.Defense}/{maxDef}</div>
+                    <div>{pokemonData?.base["Sp. Attack"]}/{maxSPAtt}</div>
+                    <div>{pokemonData?.base["Sp. Defense"]}/{maxSPDef}</div>
+                    <div>{pokemonData?.base.Speed}/{maxSp}</div>
+                  </div>
                 </div>
-                            </div>
+                
+            </div>
+              <div className='custom-modal-content-footer'>
+                <button onClick={handleCurrentPlayer}>I choose you!</button>
+                <button className="custom-modal-close" onClick={handleClose}>
+                Close
+                </button>
               </div>
-            
-            <button className="custom-modal-close" onClick={handleClose}>
-            Close
-            </button>
           </div>
-          
         </div>
       )}
     </div>

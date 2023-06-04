@@ -52,7 +52,7 @@ function App() {
     <div className="App">
       
         <Routes>
-          {console.log("Selected Poke", selectedPoke)}
+          {/* {console.log("Selected Poke", selectedPoke)} */}
           <Route path="/" element={<LandingPage data={data} dataImg={dataImg} setSelectedPoke={setSelectedPoke} />} />   
           <Route path="/pokemon/arena" element={<Arena selectedPoke={selectedPoke} dataImg={dataImg} />} />
         </Routes>

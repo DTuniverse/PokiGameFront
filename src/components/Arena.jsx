@@ -13,9 +13,9 @@ export default function Arena({selectedPoke, dataImg}) {
   const enemyTeam = [data[randomNumber()],data[randomNumber()],data[randomNumber()],data[randomNumber()]]
   const [ enemyTrainer, setEnemyTrainer ] = useState(trainers[Math.floor(Math.random() * 6)])
   const [ currentPlayer, setCurrentPlayer ] = useState(selectedPoke?.data) 
-  let currentPlayerImg = selectedPoke?.dataImg
+  const [ currentPlayerImg, setCurrentPlayerImg ] = useState(selectedPoke?.dataImg)
   const [ currentEnemy, setCurrentEnemy ] = useState(data[randomNumber()])
-
+  const [ defeatedPokemons, setDefeatedPokemons ] = useState([])
   const [ enemyImg, setEnemyImg ] = useState()
   const enemyImgData = dataImg?.find(i=>i.name===currentEnemy?.name.english.toLowerCase())
   const fetchEnemyImg = async () => {
@@ -33,8 +33,8 @@ export default function Arena({selectedPoke, dataImg}) {
     fetchEnemyImg();
   }, [currentEnemy]);
   
-  console.log("This is current Enemy Image", enemyImgData)
-  console.log("This is current enemy",currentEnemy)
+  // console.log("This is current Enemy Image", enemyImgData)
+  // console.log("This is current enemy",currentEnemy)
   
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
@@ -71,7 +71,8 @@ export default function Arena({selectedPoke, dataImg}) {
     console.log("current enemy", currentEnemy)
     console.log("initial player HP", initialPlayerHp)
     console.log("initial enemy HP", initialEnemyHp)
-    console.log("enemy team", enemyTeam)
+    console.log("this is defeated pokemons array", defeatedPokemons)
+    // console.log("enemy team", enemyTeam)
     // console.log("remaining player hp", playerRemainingHP)
     // console.log("remaining enemy hp", enemyRemainingHp)
     // console.log("random num1", randomNumber())
@@ -86,10 +87,9 @@ function basicAttack() {
     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
   }
   else if (currentEnemy.base.HP < playerDmg) {
+    setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
     currentEnemy.base.HP = 0
     setCurrentEnemy({...currentEnemy})
-    // currentPlayer.base.HP = initialPlayerHp
-    // setInitialPlayerHp({...currentPlayer})
     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
     document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
   } 
@@ -102,10 +102,9 @@ function basicAttack() {
           document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
       }
       else if (currentEnemy.base.HP < playerSPDmg) {
+          setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
           currentEnemy.base.HP = 0
           setCurrentEnemy({...currentEnemy})
-          // currentPlayer.base.HP = initialPlayerHp
-          // setInitialPlayerHp({...currentPlayer})
           document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
           document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
       } 
@@ -128,9 +127,9 @@ function basicAttack() {
       document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
     }
   }
-  
 }
-useEffect(() => {
+
+  useEffect(() => {
   if (currentEnemy.base.HP <= 0) {
     const newEnemy = data[randomNumber()]
     setCurrentEnemy(newEnemy)
@@ -140,7 +139,18 @@ useEffect(() => {
   }    
  },[currentEnemy.base.HP])
 
+  useEffect(() => {
+    if (defeatedPokemons.length == 4) {
+      alert("CONGRATULATIONS!!! YOU HAVE DEFEATED THE ENEMY TEAM")
+      console.log("this is with the alert", defeatedPokemons)
+    }
+  },[defeatedPokemons])
 
+//  useEffect(() => {
+//   if (defeatedPokemons.length = 4) {
+//     alert("CONGRATULATIONS!!! YOU HAVE DEFEATED THE ENEMY TEAM")
+//   }
+//  },[])
 
 
             //------------------- Type Chart ------------------------//
@@ -157,7 +167,7 @@ useEffect(() => {
     <div className="arena__wrapper">
       <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
-        {currentPlayer.base.HP <=0 ? <Modal_arena /> : ""}
+        {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} /> : ""}
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
             <div className="arena__body_arena_header_card">{currentPlayer?.name.english}</div>
