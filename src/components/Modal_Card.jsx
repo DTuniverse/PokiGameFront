@@ -7,8 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import {Link} from "react-router-dom"
+import TextField from '@mui/material/TextField';
 
-export default function BasicCard({data, dataImg, indexOfSelected, modalImg, setSelectedPoke, handleClose}) {
+export default function BasicCard({data, dataImg, indexOfSelected, modalImg, setSelectedPoke, handleClose, playerName, setPlayerName}) {
   const pokemon = data[indexOfSelected]
   const handleClick=()=>{
     const obj = {
@@ -39,13 +40,14 @@ export default function BasicCard({data, dataImg, indexOfSelected, modalImg, set
         </Box> 
          
          
-        <br />
-        <Typography sx={{ textAlign:'center'/* mb: 0.5 */ }} color="text.secondary">
+      
+        {/* <Typography sx={{ textAlign:'center'}} color="text.secondary">
           Description
         </Typography>
-        
+         */}
       </CardContent>
       <CardActions sx={{flexDirection:"column"}}>
+        <input type="text" className="playerName" value={playerName} placeholder="Enter your Name here" onChange={e=>setPlayerName(e.target.value)}  />
         <Button onClick={handleClick} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "green",color: "white"}}}><Link id="btn_choose" to="/pokemon/arena">I choose you {data[indexOfSelected]?.name.english}</Link></Button>
         <Button onClick={handleClose} size="medium" fullWidth="true" sx={{ color:"white", ":hover": {bgcolor: "red",color: "white"}}}>Not this Time!</Button>
       </CardActions>

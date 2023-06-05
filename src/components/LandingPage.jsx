@@ -4,7 +4,7 @@ import "./pokiCardOnLanding.css";
 import Modal from "./Modal";
 import { Container } from "@mui/system";
 
-export default function LandingPage({ data, dataImg, setSelectedPoke }) {
+export default function LandingPage({ data, dataImg, setSelectedPoke, playerName, setPlayerName }) {
   const [indexOfSelected, setIndexOfSelected] = useState(null)
   const [imgOfSelected, setImgOfSelected] = useState("")
 
@@ -47,7 +47,7 @@ export default function LandingPage({ data, dataImg, setSelectedPoke }) {
 
       </div>
       <div className="parent-modal">
-          {indexOfSelected !==null? <Modal data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} imgOfSelected={imgOfSelected} setSelectedPoke={setSelectedPoke} /> : console.log("MODAL NOT SHOWING BECAUSE NO POKEMON HAS BEEN SELECTED")}
+          {indexOfSelected !==null? <Modal data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} imgOfSelected={imgOfSelected} setSelectedPoke={setSelectedPoke} playerName={playerName} setPlayerName={setPlayerName} /> : console.log("MODAL NOT SHOWING BECAUSE NO POKEMON HAS BEEN SELECTED")}
       </div>
     </div>
     </Container>

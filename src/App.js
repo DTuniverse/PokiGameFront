@@ -9,10 +9,10 @@ function App() {
   const [data, setData] = useState([]);
   const [dataImg, setDataImg] = useState([]);
   const [selectedPoke, setSelectedPoke] = useState();
-
+  const [playerName, setPlayerName] = useState("")
   const players = [
-    { id: 1, name: "Player 1", score: 100 },
-    { id: 2, name: "Player 2", score: 80 },
+    { id: 1, name: "Anton", score: 60 },
+    { id: 2, name: "Player 2", score: 70 },
     { id: 3, name: "Player 3", score: 99 },
   ];
 
@@ -63,6 +63,8 @@ function App() {
               data={data}
               dataImg={dataImg}
               setSelectedPoke={setSelectedPoke}
+              playerName={playerName}
+              setPlayerName={setPlayerName}
             />
           }
         />
