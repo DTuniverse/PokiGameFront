@@ -8,7 +8,7 @@ export default function Modal_win({ currentPlayer, currentPlayerImg, name, defea
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const score = defeatedPokemons.length()
+  const score = defeatedPokemons.length
 
   const maxHP = 255
   const maxAtt = 181
@@ -134,7 +134,7 @@ return (
             </div>
               <div className='custom-modal_win-content-footer'>
                 <NavLink to="/" activeClassName="current" >Start a new game</NavLink>
-                <NavLink to="/pokemon/leaderboard" activeClassName="current"><button onClick={handleClick}>Submit your scores and see leaderboard</button></NavLink>
+                <button onClick={handleClick}><NavLink to="/pokemon/leaderboard" activeClassName="current">Submit your scores and see leaderboard</NavLink></button>
                 {/* <button className="custom-modal_win-close">
                 Close
                 </button> */}
