@@ -131,6 +131,37 @@ function basicAttack() {
     }
   }
 }
+
+function spAttack() {
+  if (currentPlayer.base.HP < enemySPDmg) {
+    currentPlayer.base.HP = 0
+    setCurrentPlayer({...currentPlayer})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+  }
+  else if (currentEnemy.base.HP < playerSPDmg) {
+    setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
+    currentEnemy.base.HP = 0
+    setCurrentEnemy({...currentEnemy})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+  } else {
+    currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
+    currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
+    setCurrentPlayer({...currentPlayer})
+    setCurrentEnemy({...currentEnemy})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} SP damage to ${currentEnemy.name.english}`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} SP damage to ${currentPlayer.name.english}`
+  }
+}
+
+function dodge() {
+  if (randomNumber > 15) {
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} dodges ${currentEnemy.name.english}'s attack and hits ${currentEnemy.name.english} for ${playerDmg} damage!`
+    currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
+    setCurrentEnemy({...currentEnemy})
+  }
+}
 //------------------- Type Chart --------------------------------------------------//
 
  
@@ -144,7 +175,7 @@ function basicAttack() {
   return (
     <div className="arena__wrapper">
       {isModalOpen ? <Modal_win currentPlayer={currentPlayer} currentPlayerImg={currentPlayerImg} name={name} defeatedPokemons={defeatedPokemons} /> : ""}
-      <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
+      <div className="arena__title">PokeFight</div>
       <div className="arena__body">
         {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} /> : ""}
         <div className="arena__body_arena">
@@ -229,6 +260,12 @@ function basicAttack() {
                     <div>{currentPlayer?.base["Sp. Defense"]}/{maxSPDef}</div>
                     <div>{currentPlayer?.base.Speed}/{maxSp}</div>
                   </div>
+                </div>
+                <div className="arena__body_arena_body_buttons">
+                <button onClick={basicAttack}>Basic Attack!</button>
+                <button onClick={spAttack}>SP Attack!</button>
+                <button onClick={dodge}>Try to dodge next attack!</button>
+                <button onClick={consoleLog}>Console log</button>
                 </div>
                 <div className="arena__body_arena_body_fighter_stat">
                   <div className="arena__body_arena_body_fighter_stat-bars">
