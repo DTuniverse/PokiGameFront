@@ -7,7 +7,7 @@ import Modal_win from "./Modal_win";
 
 
 
-export default function Arena({selectedPoke, dataImg}) {
+export default function Arena({selectedPoke, dataImg, name}) {
 
 // ---------------------  Setting up Player Pokemon and Enemy Pokemon and Utils -----------------------------------//
   const trainers = ["Misty", "Brock", "Jessie", "James", "Prof. Oak", "Reagan"]
@@ -66,7 +66,7 @@ export default function Arena({selectedPoke, dataImg}) {
   }, [currentEnemy]);
 
   useEffect(() => {
-    if (defeatedPokemons.length >= 4) {
+    if (defeatedPokemons.length == 4 || defeatedPokemons.length == 8 ) {
       setIsModalOpen(true);  
     }
   }, [defeatedPokemons]);
@@ -143,13 +143,13 @@ function basicAttack() {
 
   return (
     <div className="arena__wrapper">
-      {isModalOpen ? <Modal_win currentPlayer={currentPlayer} currentPlayerImg={currentPlayerImg} /> : ""}
+      {isModalOpen ? <Modal_win currentPlayer={currentPlayer} currentPlayerImg={currentPlayerImg} name={name} defeatedPokemons={defeatedPokemons} /> : ""}
       <div className="arena__title"><button onClick={basicAttack}>Attack</button>PokeFight<button onClick={consoleLog}>Console log</button></div>
       <div className="arena__body">
         {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} /> : ""}
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
-            <div className="arena__body_arena_header_card">{currentPlayer?.name.english}</div>
+            <div className="arena__body_arena_header_card">{name},{currentPlayer?.name.english}</div>
             <div className="arena__body_arena_header_card">{enemyTrainer}, {currentEnemy?.name.english}</div>
           </div>
           <div className="arena__body_arena_body">

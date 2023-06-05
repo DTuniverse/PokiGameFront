@@ -4,7 +4,12 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { NavLink } from "react-router-dom"
 
 
-export default function Modal_win({ currentPlayer, currentPlayerImg }) {
+export default function Modal_win({ currentPlayer, currentPlayerImg, name, defeatedPokemons }) {
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const score = defeatedPokemons.length
+
   const maxHP = 255
   const maxAtt = 181
   const maxDef = 230
@@ -12,6 +17,30 @@ export default function Modal_win({ currentPlayer, currentPlayerImg }) {
   const maxSPDef = 230
   const maxSp = 160
   const [open, setOpen] = useState(true);
+
+  const handleClick = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
+
+    const response = await fetch('https://pokigameback.onrender.com/pokemon/arena', {
+        method: "POST" ,
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ name, score })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        setIsLoading(false)
+        setError(data.error)
+    }
+
+    if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data))
+        setIsLoading(false)
+    }
+}
 
 return (
     <div>
@@ -105,7 +134,7 @@ return (
             </div>
               <div className='custom-modal_win-content-footer'>
                 <NavLink to="/" activeClassName="current" >Start a new game</NavLink>
-                <NavLink to="/pokemon/leaderboard" activeClassName="current">Submit your scores and see leaderboard</NavLink>
+                <button onClick={handleClick}><NavLink to="/pokemon/leaderboard" activeClassName="current">Submit your scores and see leaderboard</NavLink></button>
                 {/* <button className="custom-modal_win-close">
                 Close
                 </button> */}

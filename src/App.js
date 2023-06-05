@@ -70,7 +70,7 @@ function App() {
         />
         <Route
           path="/pokemon/arena"
-          element={<Arena selectedPoke={selectedPoke} dataImg={dataImg} />}
+          element={<Arena selectedPoke={selectedPoke} dataImg={dataImg} name={playerName} />}
         />
         <Route
           path="/pokemon/leaderboard"
