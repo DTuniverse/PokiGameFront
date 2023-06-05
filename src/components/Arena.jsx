@@ -66,7 +66,7 @@ export default function Arena({selectedPoke, dataImg}) {
   }, [currentEnemy]);
 
   useEffect(() => {
-    if (defeatedPokemons.length >= 4) {
+    if (defeatedPokemons.length == 4 || defeatedPokemons.length == 8 ) {
       setIsModalOpen(true);  
     }
   }, [defeatedPokemons]);

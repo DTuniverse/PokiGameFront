@@ -1,8 +1,27 @@
 import React from 'react';
+import { useState, useEffect } from "react"
 
 const Leaderboard = ({ players }) => {
+  const [highScore, setHighScore ] = useState()
   // Sort the players based on their scores
-  const sortedPlayers = players.sort((a, b) => b.score - a.score);
+  const sortedPlayers = highScore?.sort((a, b) => b.score - a.score);
+
+  const fetchScores = async () => {
+    try {
+      const res = await fetch("https://pokigameback.onrender.com/pokemon/leaderboard");
+      const data = await res.json();
+      console.log("this is data from the server", data)
+      setHighScore(data.data);
+    } catch (error) {
+      console.log("data not working");
+    }
+  };
+
+  useEffect(() => {
+    fetchScores()
+  },[])
+
+  console.log("this is highscore", highScore)
 
   return (
     <div>
@@ -16,7 +35,7 @@ const Leaderboard = ({ players }) => {
           </tr>
         </thead>
         <tbody>
-          {sortedPlayers.map((player, index) => (
+          {sortedPlayers?.map((player, index) => (
             <tr key={player.id}>
               <td>{index + 1}</td>
               <td>{player.name}</td>
