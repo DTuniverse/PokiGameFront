@@ -58,24 +58,3 @@ export default function Fighter() {
 </div>
 );
 }
-            
-//             {isLoading || !pokemonImage ? (
-//                 <img src="/pokeball.png" alt="Loading" /> 
-//             ) : (
-//                 pokemonData && (
-//                     <div key={pokemonData?.id}>
-//                         <h3>{pokemonData.name.english}</h3>
-//                         {pokemonImage && <img src={pokemonImage} alt={pokemonData?.name.english} />}
-//                         <p>Type: {pokemonData.type.join(', ')}</p>
-//                         <p>HP: {pokemonData.base.HP}</p>
-//                         <p>Attack: {pokemonData.base.Attack}</p>
-//                         <p>Defense: {pokemonData.base.Defense}</p>
-//                         <p>Sp. Attack: {pokemonData.base['Sp. Attack']}</p>
-//                         <p>Sp. Defense: {pokemonData.base['Sp. Defense']}</p>
-//                         <p>Speed: {pokemonData.base.Speed}</p>
-//                     </div>
-//                 )
-//             )}
-        
-//     );
-// }

@@ -2,14 +2,10 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Arena from "./components/Arena";
 import LandingPage from "./components/LandingPage";
-import Modal from "./components/Modal";
 import { useEffect, useState } from "react";
-import Fighter from "./components/Fighter";
 import Leaderboard from "./components/Leaderboard";
 
 function App() {
-  const [dataIsLoaded, setDataIsLoaded] = useState(false);
-  const [serverData, setServerData] = useState();
   const [data, setData] = useState([]);
   const [dataImg, setDataImg] = useState([]);
   const [selectedPoke, setSelectedPoke] = useState();
