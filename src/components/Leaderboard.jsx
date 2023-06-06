@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
+import "./Leaderboard.css"
 
 const Leaderboard = ({ players }) => {
   const [highScore, setHighScore ] = useState()
@@ -24,7 +25,7 @@ const Leaderboard = ({ players }) => {
   console.log("this is highscore", highScore)
 
   return (
-    <div>
+    <div className='leaderboard-table'>
       <h2>Leaderboard</h2>
       <table>
         <thead>
