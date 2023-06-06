@@ -69,8 +69,8 @@ function SimpleDialog(props) {
   // };
 
   return (
-    <Dialog onClose={handleClose} open={open} >
-      <DialogTitle sx={{textAlign:'center', backgroundColor:"black", color:"white"}}>{data[indexOfSelected].name.english}</DialogTitle>
+    <Dialog onClose={handleClose} open={open} className="modal-card-parent">
+      {/* <DialogTitle className="modal-card-title" sx={{textAlign:'center', color:"white", backgroundColor:"black"}}>{data[indexOfSelected].name.english}</DialogTitle> */}
       <BasicCard data={data} dataImg={dataImg} indexOfSelected={indexOfSelected} modalImg={modalImg} setSelectedPoke={setSelectedPoke} handleClose={handleClose} playerName={playerName} setPlayerName={setPlayerName} />
     </Dialog>
   );
