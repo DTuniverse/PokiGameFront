@@ -20,10 +20,10 @@ export default function Arena({selectedPoke, dataImg, name}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
-  const [ animate, setAnimate ] = useState(undefined);
-  const [ animateEnemy, setAnimateEnemy ] = useState(undefined)
-  const [ playerVibrate, setPlayerVibrate ] = useState(false)
-  const [ enemyVibrate, setEnemyVibrate ] = useState(false)
+  const [ animatePlayer, setAnimatePlayer ] = useState(false);
+  const [ animateEnemy, setAnimateEnemy ] = useState(false)
+  const [ vibratePlayer, setVibratePlayer] = useState(false)
+  const [ vibrateEnemy, setVibrateEnemy ] = useState(false)
 
   const maxHP = 255
   const maxAtt = 181
@@ -43,34 +43,82 @@ export default function Arena({selectedPoke, dataImg, name}) {
   }
 
   function consoleLog() {
-    setAnimate(true);
-    setTimeout(() => {
-      setAnimateEnemy(true);
-    }, 1000);
-    setTimeout(() => {
-      setAnimate(false);
-    }, 300);
-    setTimeout(() => {
-      setAnimateEnemy(false);
-    }, 200);
-
-    // setAnimate(true);
+    // setAnimatePlayer(true);
+    // setTimeout(() => {
+    //   setAnimateEnemy(true);
+    // }, 1000);
+    // setTimeout(() => {
+    //   setAnimatePlayer(false);
+    // }, 300);
     // setTimeout(() => {
     //   setAnimateEnemy(false);
     // }, 200);
+
+    // setAnimatePlayer(true)
     // setAnimateEnemy(true)
     // setTimeout(() => {
-    //   setAnimate(false);
-    // }, 200);
+    //   setAnimatePlayer(false)
+    // },300)
 
-    // setAnimate(false)
-    // setTimeout(() => {
-    //   setAnimateEnemy(false)
-    // })
-    // setTimeout(() => {
-    //   setAnimate(true)
-    // })
-    // setAnimate(false)
+  //   setAnimatePlayer(true);
+
+  // setTimeout(() => {
+  //   setAnimateEnemy(true);
+  // }, 1000);
+
+
+  // setAnimatePlayer(true);
+
+  // setTimeout(() => {
+  //   setAnimateEnemy(true);
+  // }, 2000); // Delay the enemy animation by 2 seconds
+
+  // setTimeout(() => {
+  //   setVibratePlayer(true);
+  // }, 4000); // Delay the player vibration animation by 4 seconds
+
+  // setTimeout(() => {
+  //   setVibrateEnemy(true);
+  // }, 6000);
+
+  // setAnimatePlayer(true)
+  // setTimeout(() => {
+  //   setAnimatePlayer(false)
+  //   setVibrateEnemy(true)
+  // }, 500)
+  // setTimeout(() => {
+  //   setVibrateEnemy(true)
+  // },550)
+  // setTimeout(() => {
+  //   setAnimateEnemy(true)
+  //   setVibratePlayer(true)
+  // },650)
+  // setTimeout(() => {
+  //   setAnimateEnemy(false)
+  //   setVibratePlayer(false)
+  // },750)
+
+
+  // setAnimatePlayer(true);
+
+  // setTimeout(() => {
+  //   setAnimateEnemy(true);
+  // }, 500); // Delay the enemy animation by 035 seconds
+
+  // setTimeout(() => {
+  //   setVibratePlayer(true);
+  // }, 550); // Delay the player vibration animation by 4 seconds
+
+  // setTimeout(() => {
+  //   setVibrateEnemy(true);
+  // }, 250);
+
+  // setTimeout(() => {
+  //   setAnimatePlayer(false);
+  //   setAnimateEnemy(false);
+  //   setVibratePlayer(false);
+  //   setVibrateEnemy(false);
+  // }, 1000);
 
     // console.log("current pokemon", currentPlayer)
     // console.log("current enemy", currentEnemy)
@@ -116,9 +164,9 @@ export default function Arena({selectedPoke, dataImg, name}) {
    },[currentEnemy.base.HP])
 
    const handleAnimateClick = () => {
-    setAnimate(true);
+    setAnimatePlayer(true);
     setTimeout(() => {
-      setAnimate(false);
+      setAnimatePlayer(false);
     }, 1000);
   };
 
@@ -241,8 +289,8 @@ function dodge() {
           </div>
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
-              <div className="arena__body_arena_body_player"><img className={animate ? 'animate' : 'playerVibrate'} src={currentPlayerImg} alt="player_pokemon"/></div>
-              <div className="arena__body_arena_body_enemy"><img className={animate ? 'enemyVibrate' : 'animateEnemy'} src={enemyImg} alt="enemy_pokemon"/></div>
+              <div className="arena__body_arena_body_player"><img /* className={`${animatePlayer ? 'animatePlayer' : 'animatePlayerBack'} ${vibratePlayer ? 'playerVibrate' : ''}`} */ src={currentPlayerImg} alt="player_pokemon"/></div>
+              <div className="arena__body_arena_body_enemy"><img /* className={`${animateEnemy ? 'animateEnemy' : 'animateEnemyBack'} ${vibrateEnemy ? 'enemyVibrate' : ''}`} */ src={enemyImg} alt="enemy_pokemon"/></div>
             </div>
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">

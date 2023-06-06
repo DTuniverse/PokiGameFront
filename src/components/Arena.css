@@ -81,13 +81,19 @@ font-family: Shojumaru, cursive;
     transition: transform 0.15s ease;
 }
 
-img.animate {
-    transform: translateX(170%); /* Adjust the distance of movement */
+img.animatePlayer {
+    animation: movePlayer 0.25s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+img.animatePlayerBack {
+    animation: movePlayerBack 0.25s ease-in-out;
+    animation-fill-mode: forwards;
 }
 
 .playerVibrate {
-    animation: vibration 0.15s 0.2s linear;
-  }
+    animation: vibration 0.15s 0.4s linear;
+}
 
 /* --------------------------------------Enemy Pokemon-------------------------------------------- */
 
@@ -107,12 +113,19 @@ img.animate {
 }
 
 img.animateEnemy {
-    /* transform: translateX(-170%); Adjust the distance of movement */
+    animation: moveEnemy 2s ease-in-out;
+    animation-fill-mode: forwards;
+    animation-delay: 2s;
+}
+
+img.animateEnemyBack {
+    animation: moveEnemyBack 0.25s ease-in-out;
+    animation-fill-mode: forwards;
 }
 
 .enemyVibrate {
     animation: vibration 0.15s 0.2s linear;
-  }
+}
 
 /* --------------------------------------------------------------------------------------------------- */
 
@@ -197,4 +210,24 @@ button {
     50% { transform: translate(8px, -8px); }
     75% { transform: translate(-8px, -8px); }
     100% { transform: translate(8px, 8px); }
+  }
+
+  @keyframes movePlayer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(170%); } /* Adjust the distance of movement */
+  }
+
+  @keyframes movePlayerBack {
+    100% { transform: translateX(0); }
+    0% { transform: translateX(170%); } /* Adjust the distance of movement */
+  }
+  
+  @keyframes moveEnemy {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-170%); } /* Adjust the distance of movement */
+  }
+
+  @keyframes moveEnemyBack {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-170%); } /* Adjust the distance of movement */
   }
