@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './Modal_arena.css';
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -201,9 +202,7 @@ return (
               <div className='custom-modal-content-footer'>
                 <button onClick={handleCurrentPlayer}>I choose you!</button>
                 {/* <button className="custom-modal-close" onClick={handleClose}> */}
-                <button className="custom-modal-close" onClick={handleClick}>
-                Finish and submit score
-                </button>
+                <button onClick={handleClick}><NavLink to="/pokemon/leaderboard" activeClassName="current">Finish and submit score</NavLink></button>               
               </div>
           </div>
         </div>
