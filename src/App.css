@@ -1,7 +1,8 @@
-/* body {
-  background-image: url("./resources/black-Presentation-Gradient-Background.webp");
+body {
+  /* background-image: url("./resources/black-Presentation-Gradient-Background.webp"); */
+  background: linear-gradient(to right, #1d1d1d 0%, black 100%);
 
-} */
+}
 #btn_choose {
   text-decoration: none;
   color: white;
@@ -11,3 +12,11 @@
   text-align: center;
   font-size: 1.1rem;
 }
+
+.modal-card-parent .css-18wnu3n-MuiPaper-root-MuiCard-root {
+  background-image: url("./resources/scratches-old-metal-wallpaper-preview.jpg");
+  
+}
+/* .modal-card-title {
+  background-image: url("./resources/scratches-old-metal-wallpaper-preview.jpg");
+} */

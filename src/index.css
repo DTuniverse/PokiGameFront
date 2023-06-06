@@ -1,10 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Shojumaru");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   /* font-family: "Roboto"; */
 }
-@import url("https://fonts.googleapis.com/css?family=Shojumaru");
+
 .global-heading {
   font-family: Shojumaru, cursive;
   text-align: center;
@@ -17,18 +18,23 @@
   font-family: Shojumaru, cursive;
   text-align: center;
   /* color: #387ef0; */
-  color: #ff2288;
+  color: #387ef0;
   /* background-color: rgb(84, 84, 84); */
-  text-shadow: #387ef0 1px 1px 1px;
+  text-shadow: #ff2288 1px 1px 1px;
   /* text-shadow: #ff2288 1px 1px 1px; */
+  padding-bottom: 1rem;
 }
 .instructionText {
   /* border: goldenrod 5px solid; */
   font-family: Shojumaru, cursive;
   text-align: start;
   /* color: #387ef0; */
-  color: #ff2288;
+  color: #387ef0;
   /* background-color: rgb(84, 84, 84); */
-  text-shadow: #387ef0 1px 1px 1px;
+  text-shadow: #ff2288 0.5px 0.5px 0.5px;
   /* text-shadow: #ff2288 1px 1px 1px; */
+  padding-bottom: 1rem;
+}
+.modal-card-parent .css-18wnu3n-MuiPaper-root-MuiCard-root {
+  font-family:  Shojumaru, cursive;
 }
