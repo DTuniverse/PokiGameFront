@@ -10,7 +10,7 @@ export default function LandingPage({ data, dataImg, setSelectedPoke, playerName
 
 
   return (
-    <Container sx={{ width: 900 }}>
+    <Container sx={{ width: 1100 }}>
     <div>
       <h1 className="global-heading">PokiFIGHT</h1>
       <h2 className="landingpageText">
