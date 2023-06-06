@@ -182,7 +182,7 @@ function dodge() {
       {isModalOpen ? <Modal_win currentPlayer={currentPlayer} currentPlayerImg={currentPlayerImg} name={name} defeatedPokemons={defeatedPokemons} /> : ""}
       <div className="arena__title">PokeFight</div>
       <div className="arena__body">
-        {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} /> : ""}
+        {currentPlayer?.base?.HP <=0 ? <Modal_arena setCurrentPlayer={setCurrentPlayer} setCurrentPlayerImg={setCurrentPlayerImg} setInitialPlayerHp={setInitialPlayerHp} defeatedPokemons={defeatedPokemons} name={name} /> : ""}
         <div className="arena__body_arena">
           <div className="arena__body_arena_header">
             <div className="arena__body_arena_header_card">{name},{currentPlayer?.name.english}</div>
@@ -269,7 +269,7 @@ function dodge() {
                 <div className="arena__body_arena_body_buttons">
                 <button onClick={basicAttack}>Basic Attack!</button>
                 <button onClick={spAttack}>SP Attack!</button>
-                <button onClick={dodge}>Try to dodge next attack!</button>
+                <button onClick={dodge}>Dodge attack!</button>
                 <button onClick={consoleLog}>Console log</button>
                 </div>
                 <div className="arena__body_arena_body_fighter_stat">

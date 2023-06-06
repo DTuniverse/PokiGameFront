@@ -106,6 +106,13 @@ background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%)
     align-items: center;
 }
 
+button {
+    border-radius: 10px;
+    width: 30%;
+    height: 20%;
+    box-shadow: 5px 5px 5px #000000;
+}
+
 .arena__body_arena_body_fighter_stat-bars {
     display: flex;
     flex-direction: column;

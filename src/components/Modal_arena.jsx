@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Modal_arena.css';
 import ProgressBar from "@ramonak/react-progress-bar";
 
-export default function Modal({ setCurrentPlayer, setCurrentPlayerImg, setInitialPlayerHp }) {
+export default function Modal({ setCurrentPlayer, setCurrentPlayerImg, setInitialPlayerHp, defeatedPokemons, name }) {
   const maxHP = 255
   const maxAtt = 181
   const maxDef = 230
@@ -15,6 +15,33 @@ export default function Modal({ setCurrentPlayer, setCurrentPlayerImg, setInitia
   const [pokemonImage, setPokemonImage] = useState('/pokeball.png');
   const [searchTerm, setSearchTerm] = useState('');
   const modalRef = useRef(null);
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const score = defeatedPokemons.length
+
+  const handleClick = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
+
+    const response = await fetch('https://pokigameback.onrender.com/pokemon/arena', {
+        method: "POST" ,
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ name, score })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        setIsLoading(false)
+        setError(data.error)
+    }
+
+    if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data))
+        setIsLoading(false)
+    }
+}
 
   useEffect(() => {
     if (searchTerm.trim() !== '') {
@@ -173,8 +200,9 @@ return (
             </div>
               <div className='custom-modal-content-footer'>
                 <button onClick={handleCurrentPlayer}>I choose you!</button>
-                <button className="custom-modal-close" onClick={handleClose}>
-                Close
+                {/* <button className="custom-modal-close" onClick={handleClose}> */}
+                <button className="custom-modal-close" onClick={handleClick}>
+                Finish and submit score
                 </button>
               </div>
           </div>
