@@ -62,16 +62,43 @@ background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%)
     align-items: center;
 }
 
-.arena__body_arena_body_fighter {
+.arena__body_arena_body_player {
     /* border: 1px dashed black; */
     height: auto;
     width: auto;
-    /* box-shadow: 5px 5px 10px 10px #873d8a; */
-    filter: drop-shadow(15px 10px 10px #000000)
+    filter: drop-shadow(15px 10px 10px #000000);
+    transition: opacity 500ms ease-in
 }
 
-.arena__body_arena_body_fighter img {
+.arena__body_arena_body_player img {
     width: 200px;
+    left: 0;
+    top: 0;
+    transition: transform 0.4s ease;
+}
+
+img.animate {
+    transform: translateX(350px); /* Adjust the distance of movement */
+}
+
+.arena__body_arena_body_enemy {
+    /* border: 1px dashed black; */
+    height: auto;
+    width: auto;
+    filter: drop-shadow(15px 10px 10px #000000);
+    transition: opacity 500ms ease-in
+}
+
+
+.arena__body_arena_body_enemy img {
+    width: 200px;
+    left: 0;
+    top: 0;
+    transition: transform 0.4s ease-in-out;
+}
+
+img.animateEnemy {
+    transform: translateX(-350px); /* Adjust the distance of movement */
 }
 
 .arena__body_arena_body_stats {

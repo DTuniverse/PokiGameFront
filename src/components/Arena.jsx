@@ -20,6 +20,8 @@ export default function Arena({selectedPoke, dataImg, name}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
+  const [animate, setAnimate] = useState(false);
+  const [ animateEnemy, setAnimateEnemy ] = useState(false)
 
   const maxHP = 255
   const maxAtt = 181
@@ -39,11 +41,21 @@ export default function Arena({selectedPoke, dataImg, name}) {
   }
 
   function consoleLog() {
-    console.log("current pokemon", currentPlayer)
-    console.log("current enemy", currentEnemy)
-    console.log("initial player HP", initialPlayerHp)
-    console.log("initial enemy HP", initialEnemyHp)
-    console.log("this is defeated pokemons array", defeatedPokemons)
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimateEnemy(true);
+    }, 2000);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 1000);
+    setTimeout(() => {
+      setAnimateEnemy(false);
+    }, 3000);
+    // console.log("current pokemon", currentPlayer)
+    // console.log("current enemy", currentEnemy)
+    // console.log("initial player HP", initialPlayerHp)
+    // console.log("initial enemy HP", initialEnemyHp)
+    // console.log("this is defeated pokemons array", defeatedPokemons)
     // console.log("enemy team", enemyTeam)
     // console.log("remaining player hp", playerRemainingHP)
     // console.log("remaining enemy hp", enemyRemainingHp)
@@ -80,6 +92,13 @@ export default function Arena({selectedPoke, dataImg, name}) {
       setInitialPlayerHp(currentPlayer.base.HP)
     }    
    },[currentEnemy.base.HP])
+
+   const handleAnimateClick = () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 1000);
+  };
 
 //------------------------------ Combat Logic -------------------------------------------------------------------------//
 function basicAttack() {
@@ -190,8 +209,8 @@ function dodge() {
           </div>
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
-              <div className="arena__body_arena_body_fighter"><img src={currentPlayerImg} alt="player_pokemon"/></div>
-              <div className="arena__body_arena_body_fighter"><img src={enemyImg} alt="enemy_pokemon"/></div>
+              <div className="arena__body_arena_body_player"><img className={animate ? 'animate' : ''} src={currentPlayerImg} alt="player_pokemon"/></div>
+              <div className="arena__body_arena_body_enemy"><img className={animateEnemy ? 'animateEnemy' : ''} src={enemyImg} alt="enemy_pokemon"/></div>
             </div>
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">
