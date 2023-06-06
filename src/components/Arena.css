@@ -1,13 +1,17 @@
-body {
+/* body {
     background: rgb(185,38,38);
 background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%);
-}
+font-family: Shojumaru, cursive;
+} */
 
 .arena__wrapper {
     display: flex;
     align-items: center;
     flex-direction: column;
     height: 100vh;
+    background: rgb(185,38,38);
+    background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%);
+    font-family: Shojumaru, cursive;
 }
 
 .arena__title {
@@ -61,7 +65,7 @@ background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%)
     justify-content: space-around;
     align-items: center;
 }
-
+/* -------------------------------------- Player pokemon -------------------------------------- */
 .arena__body_arena_body_player {
     /* border: 1px dashed black; */
     height: auto;
@@ -74,12 +78,18 @@ background: linear-gradient(90deg, rgba(185,38,38,1) 12%, rgba(92,84,215,1) 94%)
     width: 200px;
     left: 0;
     top: 0;
-    transition: transform 0.4s ease;
+    transition: transform 0.15s ease;
 }
 
 img.animate {
-    transform: translateX(350px); /* Adjust the distance of movement */
+    transform: translateX(170%); /* Adjust the distance of movement */
 }
+
+.playerVibrate {
+    animation: vibration 0.15s 0.2s linear;
+  }
+
+/* --------------------------------------Enemy Pokemon-------------------------------------------- */
 
 .arena__body_arena_body_enemy {
     /* border: 1px dashed black; */
@@ -89,17 +99,22 @@ img.animate {
     transition: opacity 500ms ease-in
 }
 
-
 .arena__body_arena_body_enemy img {
     width: 200px;
     left: 0;
     top: 0;
-    transition: transform 0.4s ease-in-out;
+    transition: transform 0.1s ease-in-out;
 }
 
 img.animateEnemy {
-    transform: translateX(-350px); /* Adjust the distance of movement */
+    /* transform: translateX(-170%); Adjust the distance of movement */
 }
+
+.enemyVibrate {
+    animation: vibration 0.15s 0.2s linear;
+  }
+
+/* --------------------------------------------------------------------------------------------------- */
 
 .arena__body_arena_body_stats {
     /* border: 1px dashed black; */
@@ -175,3 +190,11 @@ button {
     justify-content: space-around;
     flex-direction: column;
 }
+
+@keyframes vibration {
+    0% { transform: translate(0); }
+    25% { transform: translate(-8px, 8px); }
+    50% { transform: translate(8px, -8px); }
+    75% { transform: translate(-8px, -8px); }
+    100% { transform: translate(8px, 8px); }
+  }

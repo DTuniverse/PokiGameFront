@@ -20,8 +20,10 @@ export default function Arena({selectedPoke, dataImg, name}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ initialPlayerHp, setInitialPlayerHp ] = useState(currentPlayer?.base.HP)
   const [ initialEnemyHp, setInitialEnemyHp ] = useState(currentEnemy?.base.HP)
-  const [animate, setAnimate] = useState(false);
-  const [ animateEnemy, setAnimateEnemy ] = useState(false)
+  const [ animate, setAnimate ] = useState(undefined);
+  const [ animateEnemy, setAnimateEnemy ] = useState(undefined)
+  const [ playerVibrate, setPlayerVibrate ] = useState(false)
+  const [ enemyVibrate, setEnemyVibrate ] = useState(false)
 
   const maxHP = 255
   const maxAtt = 181
@@ -44,13 +46,32 @@ export default function Arena({selectedPoke, dataImg, name}) {
     setAnimate(true);
     setTimeout(() => {
       setAnimateEnemy(true);
-    }, 2000);
-    setTimeout(() => {
-      setAnimate(false);
     }, 1000);
     setTimeout(() => {
+      setAnimate(false);
+    }, 300);
+    setTimeout(() => {
       setAnimateEnemy(false);
-    }, 3000);
+    }, 200);
+
+    // setAnimate(true);
+    // setTimeout(() => {
+    //   setAnimateEnemy(false);
+    // }, 200);
+    // setAnimateEnemy(true)
+    // setTimeout(() => {
+    //   setAnimate(false);
+    // }, 200);
+
+    // setAnimate(false)
+    // setTimeout(() => {
+    //   setAnimateEnemy(false)
+    // })
+    // setTimeout(() => {
+    //   setAnimate(true)
+    // })
+    // setAnimate(false)
+
     // console.log("current pokemon", currentPlayer)
     // console.log("current enemy", currentEnemy)
     // console.log("initial player HP", initialPlayerHp)
@@ -74,6 +95,7 @@ export default function Arena({selectedPoke, dataImg, name}) {
   };
 
   useEffect(() => {
+
     fetchEnemyImg();
   }, [currentEnemy]);
 
@@ -104,6 +126,7 @@ export default function Arena({selectedPoke, dataImg, name}) {
 function basicAttack() {
   if (randomNumber > 85) {
     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} dodges ${currentEnemy.name.english}'s attack and hits ${currentEnemy.name.english} for ${playerDmg} damage!`
+    document.getElementById("text-box-bottom").innerHTML = `It appears ${currentEnemy.name.english} took an arrow to the knee :(`
     currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
     setCurrentEnemy({...currentEnemy})
   } else{
@@ -180,10 +203,19 @@ function spAttack() {
 }
 
 function dodge() {
-  if (randomNumber > 15) {
+  if (randomNumber() > 15) {
     document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} dodges ${currentEnemy.name.english}'s attack and hits ${currentEnemy.name.english} for ${playerDmg} damage!`
+    document.getElementById("text-box-bottom").innerHTML = `It appears ${currentEnemy.name.english} took an arrow to the knee :(`
     currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
     setCurrentEnemy({...currentEnemy})
+  }
+  else {
+    currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
+    currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
+    setCurrentPlayer({...currentPlayer})
+    setCurrentEnemy({...currentEnemy})
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
+    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
   }
 }
 //------------------- Type Chart --------------------------------------------------//
@@ -209,8 +241,8 @@ function dodge() {
           </div>
           <div className="arena__body_arena_body">
             <div className="arena__body_arena_body_fighters">
-              <div className="arena__body_arena_body_player"><img className={animate ? 'animate' : ''} src={currentPlayerImg} alt="player_pokemon"/></div>
-              <div className="arena__body_arena_body_enemy"><img className={animateEnemy ? 'animateEnemy' : ''} src={enemyImg} alt="enemy_pokemon"/></div>
+              <div className="arena__body_arena_body_player"><img className={animate ? 'animate' : 'playerVibrate'} src={currentPlayerImg} alt="player_pokemon"/></div>
+              <div className="arena__body_arena_body_enemy"><img className={animate ? 'enemyVibrate' : 'animateEnemy'} src={enemyImg} alt="enemy_pokemon"/></div>
             </div>
             <div className="arena__body_arena_body_stats">
               <div className="arena__body_arena_body_fighter_stat">
