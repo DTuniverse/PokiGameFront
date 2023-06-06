@@ -42,6 +42,10 @@ export default function Modal_win({ currentPlayer, currentPlayerImg, name, defea
     }
 }
 
+const handleClose = () => {
+  setOpen(false);
+};
+
 return (
     <div>
       {open && (
@@ -135,9 +139,9 @@ return (
               <div className='custom-modal_win-content-footer'>
                 <NavLink to="/" activeClassName="current" >Start a new game</NavLink>
                 <button onClick={handleClick}><NavLink to="/pokemon/leaderboard" activeClassName="current">Submit your scores and see leaderboard</NavLink></button>
-                {/* <button className="custom-modal_win-close">
-                Close
-                </button> */}
+                <button onClick={handleClose} className="custom-modal_win-close">
+                Continue fighting!
+                </button>
               </div>
           </div>
         </div>
