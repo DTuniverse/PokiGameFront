@@ -83,53 +83,58 @@ export default function Arena({selectedPoke, dataImg, name}) {
 
 //------------------------------ Combat Logic -------------------------------------------------------------------------//
 function basicAttack() {
-  if (currentPlayer.base.HP < enemyDmg) {
-    currentPlayer.base.HP = 0
-    setCurrentPlayer({...currentPlayer})
-    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
-    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
-  }
-  else if (currentEnemy.base.HP < playerDmg) {
-    setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
-    currentEnemy.base.HP = 0
+  if (randomNumber > 85) {
+    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} dodges ${currentEnemy.name.english}'s attack and hits ${currentEnemy.name.english} for ${playerDmg} damage!`
+    currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
     setCurrentEnemy({...currentEnemy})
-    document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
-    document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
-  } 
-  else {
-    if (randomNumber() < 30) {
-      if (currentPlayer.base.HP < enemySPDmg) {
-          currentPlayer.base.HP = 0
-          setCurrentPlayer({...currentPlayer})
-          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
-          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+  } else{
+      if (currentPlayer.base.HP < enemyDmg) {
+        currentPlayer.base.HP = 0
+        setCurrentPlayer({...currentPlayer})
+        document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+        document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
       }
-      else if (currentEnemy.base.HP < playerSPDmg) {
-          setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
-          currentEnemy.base.HP = 0
-          setCurrentEnemy({...currentEnemy})
-          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
-          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+      else if (currentEnemy.base.HP < playerDmg) {
+        setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
+        currentEnemy.base.HP = 0
+        setCurrentEnemy({...currentEnemy})
+        document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+        document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
       } 
       else {
-      console.log("this is random number", randomNumber())
-      currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
-      currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
-      setCurrentPlayer({...currentPlayer})
-      setCurrentEnemy({...currentEnemy})
-      document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} SP damage to ${currentEnemy.name.english}`
-      document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} SP damage to ${currentPlayer.name.english}`
-      }
-    } 
-    else {
-      currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
-      currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
-      setCurrentPlayer({...currentPlayer})
-      setCurrentEnemy({...currentEnemy})
-      document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
-      document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
-    }
-  }
+        if (randomNumber() < 30) {
+          if (currentPlayer.base.HP < enemySPDmg) {
+              currentPlayer.base.HP = 0
+              setCurrentPlayer({...currentPlayer})
+              document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} was defeated by ${currentEnemy.name.english}`
+              document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} is VICTORIOUS`
+          }
+          else if (currentEnemy.base.HP < playerSPDmg) {
+              setDefeatedPokemons((prevDefeatedPokemons) => [...prevDefeatedPokemons, currentEnemy.name.english]);
+              currentEnemy.base.HP = 0
+              setCurrentEnemy({...currentEnemy})
+              document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} is VICTORIOUS`
+              document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} was defeated by ${currentPlayer.name.english}`
+          } 
+          else {
+          console.log("this is random number", randomNumber())
+          currentPlayer.base.HP = currentPlayer.base.HP - enemySPDmg
+          currentEnemy.base.HP = currentEnemy.base.HP - playerSPDmg
+          setCurrentPlayer({...currentPlayer})
+          setCurrentEnemy({...currentEnemy})
+          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerSPDmg} SP damage to ${currentEnemy.name.english}`
+          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemySPDmg} SP damage to ${currentPlayer.name.english}`
+          }
+        } 
+        else {
+          currentPlayer.base.HP = currentPlayer.base.HP - enemyDmg
+          currentEnemy.base.HP = currentEnemy.base.HP - playerDmg
+          setCurrentPlayer({...currentPlayer})
+          setCurrentEnemy({...currentEnemy})
+          document.getElementById("text-box-top").innerHTML = `${currentPlayer.name.english} caused ${playerDmg} to ${currentEnemy.name.english}`
+          document.getElementById("text-box-bottom").innerHTML = `${currentEnemy.name.english} caused ${enemyDmg} to ${currentPlayer.name.english}`
+        }
+      }}
 }
 
 function spAttack() {
@@ -344,10 +349,8 @@ function dodge() {
         </div>
         <div className="arena__body_log" id="text-box">
           <div id="text-box-top">
-            This is just some sample
           </div>
           <div id="text-box-bottom">
-            This is more sample
           </div>
         </div>
       </div>
